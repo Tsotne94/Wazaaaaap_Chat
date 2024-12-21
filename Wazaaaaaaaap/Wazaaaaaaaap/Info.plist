@@ -4,6 +4,10 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Inter_28pt-SemiBold.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>AnekDevanagari-Bold.ttf</string>
+		<string>Pacifico-Regular.ttf</string>
 		<string>ABeeZee.ttf</string>
 		<string>AnekDevanagari.ttf</string>
 		<string>Inter.ttf</string>
