@@ -6,6 +6,20 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1FBC3D2B2D170C5200496F93 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D2A2D170C5200496F93 /* FirebaseAnalytics */; };
+		1FBC3D2D2D170C5200496F93 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D2C2D170C5200496F93 /* FirebaseAuth */; };
+		1FBC3D2F2D170C5200496F93 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D2E2D170C5200496F93 /* FirebaseCore */; };
+		1FBC3D312D170C5200496F93 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D302D170C5200496F93 /* FirebaseCrashlytics */; };
+		1FBC3D332D170C5200496F93 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D322D170C5200496F93 /* FirebaseFirestore */; };
+		1FBC3D352D170C5200496F93 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D342D170C5200496F93 /* FirebaseMessaging */; };
+		1FBC3D372D170C5200496F93 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D362D170C5200496F93 /* FirebaseStorage */; };
+		1FBC3D3A2D170D0800496F93 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D392D170D0800496F93 /* Nuke */; };
+		1FBC3D3C2D170D0800496F93 /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D3B2D170D0800496F93 /* NukeExtensions */; };
+		1FBC3D3E2D170D0800496F93 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D3D2D170D0800496F93 /* NukeUI */; };
+		1FBC3D402D170D0800496F93 /* NukeVideo in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D3F2D170D0800496F93 /* NukeVideo */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		1F9DF2AB2D16DC590040D759 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -30,6 +44,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		1FBC3D272D17078F00496F93 /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = 1F9DF2A92D16DC590040D759 /* WazaaaaaaaapTests */;
+		};
+		1FBC3D282D17078F00496F93 /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = 1F9DF2B32D16DC590040D759 /* WazaaaaaaaapUITests */;
+		};
 		3FEA3E222D16F403000EA653 /* Exceptions for "Wazaaaaaaaap" folder in "Wazaaaaaaaap" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -44,6 +72,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				3FEA3E222D16F403000EA653 /* Exceptions for "Wazaaaaaaaap" folder in "Wazaaaaaaaap" target */,
+				1FBC3D272D17078F00496F93 /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapTests" target */,
+				1FBC3D282D17078F00496F93 /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapUITests" target */,
 			);
 			path = Wazaaaaaaaap;
 			sourceTree = "<group>";
@@ -65,6 +95,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FBC3D352D170C5200496F93 /* FirebaseMessaging in Frameworks */,
+				1FBC3D2B2D170C5200496F93 /* FirebaseAnalytics in Frameworks */,
+				1FBC3D312D170C5200496F93 /* FirebaseCrashlytics in Frameworks */,
+				1FBC3D2F2D170C5200496F93 /* FirebaseCore in Frameworks */,
+				1FBC3D372D170C5200496F93 /* FirebaseStorage in Frameworks */,
+				1FBC3D3E2D170D0800496F93 /* NukeUI in Frameworks */,
+				1FBC3D332D170C5200496F93 /* FirebaseFirestore in Frameworks */,
+				1FBC3D2D2D170C5200496F93 /* FirebaseAuth in Frameworks */,
+				1FBC3D3A2D170D0800496F93 /* Nuke in Frameworks */,
+				1FBC3D402D170D0800496F93 /* NukeVideo in Frameworks */,
+				1FBC3D3C2D170D0800496F93 /* NukeExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +166,17 @@
 			);
 			name = Wazaaaaaaaap;
 			packageProductDependencies = (
+				1FBC3D2A2D170C5200496F93 /* FirebaseAnalytics */,
+				1FBC3D2C2D170C5200496F93 /* FirebaseAuth */,
+				1FBC3D2E2D170C5200496F93 /* FirebaseCore */,
+				1FBC3D302D170C5200496F93 /* FirebaseCrashlytics */,
+				1FBC3D322D170C5200496F93 /* FirebaseFirestore */,
+				1FBC3D342D170C5200496F93 /* FirebaseMessaging */,
+				1FBC3D362D170C5200496F93 /* FirebaseStorage */,
+				1FBC3D392D170D0800496F93 /* Nuke */,
+				1FBC3D3B2D170D0800496F93 /* NukeExtensions */,
+				1FBC3D3D2D170D0800496F93 /* NukeUI */,
+				1FBC3D3F2D170D0800496F93 /* NukeVideo */,
 			);
 			productName = Wazaaaaaaaap;
 			productReference = 1F9DF29A2D16DC570040D759 /* Wazaaaaaaaap.app */;
@@ -208,6 +260,10 @@
 			);
 			mainGroup = 1F9DF2912D16DC570040D759;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				1FBC3D382D170D0800496F93 /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1F9DF29B2D16DC570040D759 /* Products */;
 			projectDirPath = "";
@@ -575,6 +631,83 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.6.0;
+			};
+		};
+		1FBC3D382D170D0800496F93 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1FBC3D2A2D170C5200496F93 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		1FBC3D2C2D170C5200496F93 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		1FBC3D2E2D170C5200496F93 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		1FBC3D302D170C5200496F93 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		1FBC3D322D170C5200496F93 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		1FBC3D342D170C5200496F93 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		1FBC3D362D170C5200496F93 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		1FBC3D392D170D0800496F93 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D382D170D0800496F93 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		1FBC3D3B2D170D0800496F93 /* NukeExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D382D170D0800496F93 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeExtensions;
+		};
+		1FBC3D3D2D170D0800496F93 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D382D170D0800496F93 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+		1FBC3D3F2D170D0800496F93 /* NukeVideo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FBC3D382D170D0800496F93 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeVideo;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1F9DF2922D16DC570040D759 /* Project object */;
 }
