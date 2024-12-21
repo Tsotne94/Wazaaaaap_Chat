@@ -50,7 +50,7 @@ struct LabelAndTextFieldView: View {
     
     private var titleLabel: some View {
         Text(label)
-            .font(.headline)
+            .font(.inter(size: 12))
             .foregroundColor(.secondaryText)
     }
     
@@ -63,12 +63,14 @@ struct LabelAndTextFieldView: View {
         SecureField(placeholder, text: $text)
             .textFieldStyle(PlainTextFieldStyle())
             .autocapitalization(.none)
+            .font(.inter(size: 15))
     }
     
     private var regularTextField: some View {
         TextField(placeholder, text: $text)
             .textFieldStyle(PlainTextFieldStyle())
             .autocapitalization(.none)
+            .font(.inter(size: 15))
     }
     
     private var visibilityButton: some View {

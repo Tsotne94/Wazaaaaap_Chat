@@ -58,19 +58,19 @@ struct LoginView: View {
     private var wazapLabel: some View {
         Text("Wazaaaaap")
             .foregroundStyle(.primaryPurple)
-            .font(.custom("Pacifico-Regular", size: 48))
+            .font(.pacificoRegular(size: 48))
     }
     
     private var newUserQuestionLabel: some View {
         Text("New To Wazaaaaap?")
             .foregroundStyle(.secondaryText)
-            .font(.custom("Inter", size: 12))
+            .font(.inter(size: 12))
     }
     
     private var signUpButton: some View {
         Button("Sign Up") {}
             .foregroundColor(.secondaryText)
-            .font(.custom("AnekDevanagari-Bold", size: 18))
+            .font(.anekDevanagariBold(size: 18))
     }
     
     private var continueWithGoogleButton: some View {
@@ -84,7 +84,7 @@ struct LoginView: View {
                     .frame(width: 23, height: 23)
                 
                 Text("Continue With Google")
-                    .font(.custom("Roboto-Medium", size: 20))
+                    .font(.robotoMedium(size: 20))
                     .foregroundColor(.primaryBlack).opacity(0.54)
             }
             .padding(.horizontal, 49)
@@ -97,7 +97,7 @@ struct LoginView: View {
     
     private var loginButton: some View {
         Button("Log In") {}
-            .font(.custom("Inter_28pt-SemiBold", size: 20))
+            .font(.interSemiBold(size: 20))
             .padding(.horizontal, 134)
             .padding(.top, 20)
             .padding(.bottom, 20)
@@ -106,7 +106,6 @@ struct LoginView: View {
             .cornerRadius(12)
     }
 }
-
 
 #Preview {
     LoginView()
