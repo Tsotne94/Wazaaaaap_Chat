@@ -3,6 +3,9 @@
 
 .DS_Store
 
+# Xcode workspace settings
+*.xcworkspace/xcshareddata/
+
 ### Swift ###
 # Xcode
 #
