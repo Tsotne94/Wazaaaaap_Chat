@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignupView: View {
     @StateObject private var viewModel = SignUpViewModel()
+    @State private var isNavigatingToLogin = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -50,6 +51,19 @@ struct SignupView: View {
         .padding(.horizontal, 16)
         .background(Color.white)
         
+        .background(
+            NavigationLink(
+                //MARK:  ("ჩასვით LoginView destionation-ში")
+                destination: ProfileView(),
+                isActive: $isNavigatingToLogin,
+                label: { EmptyView() }
+            )
+        )
+        .onChange(of: viewModel.shouldNavigateToLogin) { shouldNavigate in
+            if shouldNavigate {
+                isNavigatingToLogin = true
+            }
+        }
     }
 }
 
