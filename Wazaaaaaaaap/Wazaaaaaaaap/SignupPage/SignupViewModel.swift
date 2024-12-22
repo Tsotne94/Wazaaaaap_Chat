@@ -16,11 +16,14 @@ final class SignUpViewModel: ObservableObject {
     @Published var confirmPassword: String = ""
     @Published var statusMessage: String? = nil
     @Published var isSuccess: Bool = false
-    @Published var shouldNavigateToLogin: Bool = false 
+    @Published var shouldNavigateToLogin: Bool = false
     
     func validateForm() -> (isValid: Bool, message: String?) {
         guard !fullName.isEmpty, !userName.isEmpty, !email.isEmpty, !password.isEmpty, !confirmPassword.isEmpty else {
             return (false, "All fields are required.")
+        }
+        guard isValidEmail(email) else {
+            return (false, "Please enter a valid email address.")
         }
         guard password.count >= 6 else {
             return (false, "Password must be at least 6 characters long.")
@@ -57,5 +60,11 @@ final class SignUpViewModel: ObservableObject {
                 self.statusMessage = "Error during sign-up: \(error.localizedDescription)"
             }
         }
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        return emailTest.evaluate(with: email)
     }
 }
