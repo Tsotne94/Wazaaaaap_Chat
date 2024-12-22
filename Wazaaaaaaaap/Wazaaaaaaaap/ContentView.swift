@@ -17,7 +17,7 @@ struct ChatView: View {
     var body: some View {
         VStack {
             HeaderView(profile: $showProfile)
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 ForEach(messages) { message in
                     HStack {
                         if message.from == Auth.auth().currentUser?.uid {
@@ -112,7 +112,7 @@ struct BottomView: View {
                         .frame(width: 25, height: 25)
                         .tint(.primaryPurple)
                 }
-                TextField("", text: $text, prompt: Text("Replay To Everyone..."))
+                TextField("", text: $text, prompt: Text("Replay To Everyone..."), axis: .vertical)
                     .padding(10)
                     .background(.customWhite)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
