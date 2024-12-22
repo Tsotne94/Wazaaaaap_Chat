@@ -37,6 +37,9 @@ struct SignupView: View {
             Button(action: {
                 Task {
                     await viewModel.SignUp()
+                    if viewModel.isSuccess {
+                        viewModel.shouldNavigateToLogin = true
+                    }
                 }
             }) {
                 Text("Sign Up")
@@ -53,17 +56,11 @@ struct SignupView: View {
         
         .background(
             NavigationLink(
-                //MARK:  ("ჩასვით LoginView destionation-ში")
-                destination: ProfileView(),
-                isActive: $isNavigatingToLogin,
+                destination: ProfileView(isNavigatingToLogin: $viewModel.shouldNavigateToLogin),
+                isActive: $viewModel.shouldNavigateToLogin,
                 label: { EmptyView() }
             )
         )
-        .onChange(of: viewModel.shouldNavigateToLogin) { shouldNavigate in
-            if shouldNavigate {
-                isNavigatingToLogin = true
-            }
-        }
     }
 }
 

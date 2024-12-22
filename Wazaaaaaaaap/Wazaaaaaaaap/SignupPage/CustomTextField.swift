@@ -16,11 +16,12 @@ struct CustomTextField: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.caption)
+                .font(.custom("Inter", size: 12))
                 .foregroundColor(.gray)
             TextField(placeholder, text: $text)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(keyboardType)
+                .font(.custom("Inter", size: 15)) 
         }
     }
 }

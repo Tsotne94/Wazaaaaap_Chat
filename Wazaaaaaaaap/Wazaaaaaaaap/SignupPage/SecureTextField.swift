@@ -16,7 +16,7 @@ struct SecureTextField: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.caption)
+                .font(.custom("Inter", size: 12))
                 .foregroundColor(.gray)
             HStack {
                 Image(systemName: "lock")

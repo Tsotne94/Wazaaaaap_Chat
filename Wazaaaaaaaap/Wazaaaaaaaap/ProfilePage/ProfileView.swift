@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileViewModel()
+    @Binding var isNavigatingToLogin: Bool
     
     var body: some View {
         NavigationView {
@@ -102,6 +103,4 @@ struct ProfileView: View {
 }
 
 
-#Preview {
-    ProfileView()
-}
+
