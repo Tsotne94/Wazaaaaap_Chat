@@ -192,6 +192,7 @@ struct ChatView: View {
         }
     }
     
+#warning("gpt has been used here!")
     func fetchMessages() {
         let firestore = Firestore.firestore()
         firestore.collection("groupChat")
@@ -280,7 +281,7 @@ struct BottomView: View {
         ] as [String: Any]
         
         firestore.collection("groupChat")
-            .document("chat1") 
+            .document("chat1")
             .collection("messages")
             .addDocument(data: messageData) { error in
                 if let error = error {
