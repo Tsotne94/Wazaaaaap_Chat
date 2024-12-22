@@ -18,6 +18,8 @@
 		1FBC3D3C2D170D0800496F93 /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D3B2D170D0800496F93 /* NukeExtensions */; };
 		1FBC3D3E2D170D0800496F93 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D3D2D170D0800496F93 /* NukeUI */; };
 		1FBC3D402D170D0800496F93 /* NukeVideo in Frameworks */ = {isa = PBXBuildFile; productRef = 1FBC3D3F2D170D0800496F93 /* NukeVideo */; };
+		3FEA40082D184D4B000EA653 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3FEA40072D184D4B000EA653 /* GoogleSignIn */; };
+		3FEA400A2D184D4B000EA653 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3FEA40092D184D4B000EA653 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,20 +46,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		1F5A75392D177138007BB7DC /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"GoogleService-Info.plist",
-			);
-			target = 1F9DF2A92D16DC590040D759 /* WazaaaaaaaapTests */;
-		};
-		1F5A753A2D177138007BB7DC /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"GoogleService-Info.plist",
-			);
-			target = 1F9DF2B32D16DC590040D759 /* WazaaaaaaaapUITests */;
-		};
 		3FEA3E222D16F403000EA653 /* Exceptions for "Wazaaaaaaaap" folder in "Wazaaaaaaaap" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -72,8 +60,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				3FEA3E222D16F403000EA653 /* Exceptions for "Wazaaaaaaaap" folder in "Wazaaaaaaaap" target */,
-				1F5A75392D177138007BB7DC /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapTests" target */,
-				1F5A753A2D177138007BB7DC /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapUITests" target */,
 			);
 			path = Wazaaaaaaaap;
 			sourceTree = "<group>";
@@ -100,6 +86,8 @@
 				1FBC3D312D170C5200496F93 /* FirebaseCrashlytics in Frameworks */,
 				1FBC3D2F2D170C5200496F93 /* FirebaseCore in Frameworks */,
 				1FBC3D372D170C5200496F93 /* FirebaseStorage in Frameworks */,
+				3FEA400A2D184D4B000EA653 /* GoogleSignInSwift in Frameworks */,
+				3FEA40082D184D4B000EA653 /* GoogleSignIn in Frameworks */,
 				1FBC3D3E2D170D0800496F93 /* NukeUI in Frameworks */,
 				1FBC3D332D170C5200496F93 /* FirebaseFirestore in Frameworks */,
 				1FBC3D2D2D170C5200496F93 /* FirebaseAuth in Frameworks */,
@@ -177,6 +165,8 @@
 				1FBC3D3B2D170D0800496F93 /* NukeExtensions */,
 				1FBC3D3D2D170D0800496F93 /* NukeUI */,
 				1FBC3D3F2D170D0800496F93 /* NukeVideo */,
+				3FEA40072D184D4B000EA653 /* GoogleSignIn */,
+				3FEA40092D184D4B000EA653 /* GoogleSignInSwift */,
 			);
 			productName = Wazaaaaaaaap;
 			productReference = 1F9DF29A2D16DC570040D759 /* Wazaaaaaaaap.app */;
@@ -263,6 +253,7 @@
 			packageReferences = (
 				1FBC3D292D170C5200496F93 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				1FBC3D382D170D0800496F93 /* XCRemoteSwiftPackageReference "Nuke" */,
+				3FEA40062D184B02000EA653 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1F9DF29B2D16DC570040D759 /* Products */;
@@ -649,6 +640,14 @@
 				minimumVersion = 12.8.0;
 			};
 		};
+		3FEA40062D184B02000EA653 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -706,6 +705,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1FBC3D382D170D0800496F93 /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = NukeVideo;
+		};
+		3FEA40072D184D4B000EA653 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3FEA40062D184B02000EA653 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		3FEA40092D184D4B000EA653 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3FEA40062D184B02000EA653 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

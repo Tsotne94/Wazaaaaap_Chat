@@ -11,6 +11,9 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct ContentView: View {
+    
+    @StateObject var viewModel = LogInViewModel()
+    
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var isUserFetched: Bool = false
@@ -19,6 +22,10 @@ struct ContentView: View {
     private let firestore = Firestore.firestore()
     
     var body: some View {
+        if !viewModel.fetchIsLoggedInState() {
+            LoginView()
+        } else {
+            ProfileView()
         NavigationView {
             VStack {
                 Image(systemName: "person.fill")
@@ -60,57 +67,6 @@ struct ContentView: View {
                     label: { EmptyView() }
                 )
             )
-        }
-    }
-    
-    func signUp() {
-        Auth.auth().createUser(withEmail: username, password: password) { result, error in
-            if let error = error {
-                print("Sign up failed: \(error)")
-            } else if let user = result?.user {
-                print("Sign up successful: \(user.uid)")
-                storeUserInfo(uid: user.uid)
-            }
-        }
-    }
-    
-    func signIn() {
-        Auth.auth().signIn(withEmail: username, password: password) { result, error in
-            if let error = error {
-                print("Sign in failed: \(error)")
-            } else if let user = result?.user {
-                print("Sign in successful: \(user.uid)")
-                fetchCurrentUser(uid: user.uid)
-            }
-        }
-    }
-    
-    func storeUserInfo(uid: String) {
-        let newUser = User(uid: uid, email: username, name: "", surname: "")
-        do {
-            try firestore.collection("Users").document(uid).setData(from: newUser)
-        } catch {
-            print("Error storing user info: \(error)")
-        }
-    }
-    
-    func fetchCurrentUser(uid: String) {
-        let docRef = firestore.collection("Users").document(uid)
-        docRef.getDocument { snapshot, error in
-            if let error = error {
-                print("Failed to fetch user: \(error)")
-            } else if let snapshot = snapshot {
-                do {
-                    let user = try snapshot.data(as: User.self)
-                    print("User fetched successfully: \(user)")
-                    self.userDetails = user
-                    self.isUserFetched = true
-                } catch {
-                    print("Error decoding user data: \(error)")
-                }
-            } else {
-                print("No such document.")
-            }
         }
     }
 }

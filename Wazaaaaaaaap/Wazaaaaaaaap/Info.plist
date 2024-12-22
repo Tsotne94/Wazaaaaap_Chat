@@ -2,8 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.256306559762-rb7qti0qq11onkn0rdefhl73t7nrh5dm</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Inter_28pt-SemiBold.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>AnekDevanagari-Bold.ttf</string>
+		<string>Pacifico-Regular.ttf</string>
 		<string>ABeeZee.ttf</string>
 		<string>AnekDevanagari.ttf</string>
 		<string>Inter.ttf</string>
