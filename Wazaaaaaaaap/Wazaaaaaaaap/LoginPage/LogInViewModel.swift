@@ -28,6 +28,7 @@ class LogInViewModel: ObservableObject {
         self.email = email
         self.password = password
         self.isLogedIn = isLogedIn
+        self.isLogedIn = Auth.auth().currentUser != nil
     }
     
     func logIn() {
@@ -115,6 +116,6 @@ class LogInViewModel: ObservableObject {
     }
     
     func fetchIsLoggedInState() -> Bool {
-        return self.userDefault.bool(forKey: "isLoggedIn")
+        return Auth.auth().currentUser != nil
     }
 }

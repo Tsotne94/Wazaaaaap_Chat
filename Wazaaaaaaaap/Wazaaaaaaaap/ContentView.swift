@@ -48,6 +48,7 @@ struct ChatView: View {
         .navigationDestination(isPresented: $showProfile) {
             ProfileView(showProfile: $showProfile)
         }
+        .navigationBarBackButtonHidden(true)
     }
     
 #warning("gpt has been used here!")
@@ -100,7 +101,7 @@ struct BottomView: View {
     var body: some View {
         VStack(spacing: 0) {
             Divider()
-                .background(Color.customWhite)
+                .foregroundStyle(.customWhite)
                 .padding(.bottom, 8)
             HStack {
                 Button {
@@ -153,7 +154,6 @@ struct BottomView: View {
 }
 
 #Preview {
-//    ChatView(currentUser: User(id: "1", uid: "1", email: "giorgi@gmail.com", name: "cotne", surname: "chubinidze"))
     ChatView()
 }
 
