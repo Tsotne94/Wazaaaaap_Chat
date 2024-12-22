@@ -6,7 +6,7 @@
 //
 import Foundation
 
-enum AppColors {
+enum AppColors: String {
     case red
     case white
     case purple
@@ -14,7 +14,7 @@ enum AppColors {
     case textSecondary
 }
 
-enum AppIcons {
+enum AppIcons: String {
     case back
     case eye
     case gear

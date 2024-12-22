@@ -9,7 +9,6 @@ import SwiftUI
 import Firebase
 import FirebaseAuth
 import FirebaseFirestore
-import Nuke
 
 struct ContentView: View {
     @State private var username: String = ""
@@ -56,7 +55,7 @@ struct ContentView: View {
             .navigationTitle("Authentication")
             .background(
                 NavigationLink(
-                    destination: DetailView(user: userDetails),
+                    destination: DetailView(user: userDetails, isUserLoggedIn: $isUserFetched),
                     isActive: $isUserFetched,
                     label: { EmptyView() }
                 )
@@ -118,9 +117,22 @@ struct ContentView: View {
 
 struct DetailView: View {
     let user: User?
+    @Binding var isUserLoggedIn: Bool
     
     var body: some View {
         VStack {
+            HStack {
+                Spacer()
+                Button {
+                    handleSignOut()
+                } label: {
+                    Image("customGear")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                }
+                .padding()
+
+            }
             if let user = user {
                 Text("Email: \(user.email)")
                 Text("UID: \(user.uid)")
@@ -133,8 +145,87 @@ struct DetailView: View {
         .padding()
         .navigationTitle("User Details")
     }
+    
+    func handleSignOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print("failed to sign out")
+        }
+        isUserLoggedIn.toggle()
+    }
+}
+
+struct ChatView: View {
+//    let currentUser:  User
+    var body: some View {
+        ZStack {
+            VStack {
+                HeaderView()
+                ScrollView {
+                    
+                }
+                Text("thats it for now")
+                BottomView()
+            }
+        }
+    }
+}
+
+struct HeaderView: View {
+    var body: some View {
+        ZStack(alignment: .trailing) {
+            HStack {
+                Spacer()
+                Image("logo")
+                    .frame(width: 166, height: 22)
+                    .scaledToFit()
+                    .padding()
+                Spacer()
+            }
+            Button {
+                print("i am cool")
+            } label: {
+                Image("customGear")
+                    .resizable()
+                    .frame(width: 22, height: 22)
+            }
+            .padding(.trailing, 15)
+        }
+        .padding(.bottom, 8)
+        .background(.customWhite)
+    }
+}
+
+struct BottomView: View {
+    @State var text: String = ""
+    var body: some View {
+        VStack(spacing: 0) {
+            Rectangle()
+                .frame(width: .infinity, height: 1)
+                .foregroundStyle(.customWhite)
+                .padding(.bottom, 8)
+            HStack {
+                TextField("", text: $text, prompt: Text("Replay To Everyone"))
+                    .padding(10)
+                    .background(.customWhite)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .foregroundStyle(.primaryText)
+                Button {
+                    print("pressed")
+                } label: {
+                    Image("customSend")
+                        .resizable()
+                        .frame(width: 34, height: 34)
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
 }
 
 #Preview {
-    ContentView()
+//    ChatView(currentUser: User(id: "1", uid: "1", email: "giorgi@gmail.com", name: "cotne", surname: "chubinidze"))
+    ChatView()
 }
+
