@@ -123,9 +123,12 @@ struct BottomView: View {
                     .background(.customWhite)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundStyle(.primaryText)
+                    .onSubmit {
+                         sendIfNotEmpty()
+                     }
                 Button {
                     if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        sendMessage()
+                        sendIfNotEmpty()
                     }
                     
                 } label: {
@@ -136,6 +139,13 @@ struct BottomView: View {
             }
             .padding(.horizontal)
         }
+    }
+    
+    func sendIfNotEmpty() {
+        if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            sendMessage()
+        }
+        text = ""
     }
     
     func sendMessage() {
