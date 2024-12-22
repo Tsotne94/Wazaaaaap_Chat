@@ -5,6 +5,7 @@
 //  Created by Cotne Chubinidze on 21.12.24.
 //
 import FirebaseFirestore
+import FirebaseAuth
 
 struct User: Codable, Identifiable {
     @DocumentID var id: String?
@@ -14,9 +15,13 @@ struct User: Codable, Identifiable {
     var surname: String
 }
 
-struct Message: Identifiable, Codable {
-    @DocumentID var id: String? 
+struct MessageModel: Identifiable, Codable {
+    @DocumentID var id: String?
     let from: String
     let text: String
     let timeStamp: Timestamp
+    
+    var isFromCurrentUser: Bool {
+        from == Auth.auth().currentUser?.uid
+    }
 }
