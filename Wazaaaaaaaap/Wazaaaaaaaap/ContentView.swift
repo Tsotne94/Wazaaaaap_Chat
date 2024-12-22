@@ -162,7 +162,7 @@ struct ChatView: View {
     var body: some View {
         VStack {
             HeaderView()
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 ForEach(messages) { message in
                     HStack {
                         if message.from == Auth.auth().currentUser?.uid {
@@ -240,9 +240,8 @@ struct BottomView: View {
     @State var text: String = ""
     var body: some View {
         VStack(spacing: 0) {
-            Rectangle()
-                .frame(width: .infinity, height: 1)
-                .foregroundStyle(.customWhite)
+            Divider()
+                .background(Color.customWhite)
                 .padding(.bottom, 8)
             HStack {
                 Button {
