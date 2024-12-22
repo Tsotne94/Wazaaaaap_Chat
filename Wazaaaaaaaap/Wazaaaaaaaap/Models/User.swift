@@ -13,3 +13,10 @@ struct User: Codable, Identifiable {
     var name: String
     var surname: String
 }
+
+struct Message: Identifiable, Codable {
+    @DocumentID var id: String? 
+    let from: String
+    let text: String
+    let timeStamp: Timestamp
+}

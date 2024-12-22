@@ -55,7 +55,7 @@ struct ContentView: View {
             .navigationTitle("Authentication")
             .background(
                 NavigationLink(
-                    destination: DetailView(user: userDetails, isUserLoggedIn: $isUserFetched),
+                    destination: ChatView(),
                     isActive: $isUserFetched,
                     label: { EmptyView() }
                 )
@@ -157,18 +157,56 @@ struct DetailView: View {
 }
 
 struct ChatView: View {
-//    let currentUser:  User
+    @State private var messages: [Message] = []
+    
     var body: some View {
-        ZStack {
-            VStack {
-                HeaderView()
-                ScrollView {
-                    
+        VStack {
+            HeaderView()
+            ScrollView {
+                ForEach(messages) { message in
+                    HStack {
+                        if message.from == Auth.auth().currentUser?.uid {
+                            Spacer()
+                            Text(message.text)
+                                .padding()
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: 250, alignment: .trailing)
+                        } else {
+                            Text(message.text)
+                                .padding()
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(10)
+                                .frame(maxWidth: 250, alignment: .leading)
+                            Spacer()
+                        }
+                    }
+                    .padding(5)
                 }
-                Text("thats it for now")
-                BottomView()
             }
+            BottomView()
         }
+        .onAppear {
+            fetchMessages()
+        }
+    }
+    
+    func fetchMessages() {
+        let firestore = Firestore.firestore()
+        firestore.collection("groupChat")
+            .document("chat1")
+            .collection("messages")
+            .order(by: "timeStamp", descending: false)
+            .addSnapshotListener { snapshot, error in
+                if let error = error {
+                    print("Failed to fetch messages: \(error)")
+                    return
+                }
+                self.messages = snapshot?.documents.compactMap { document in
+                    try? document.data(as: Message.self)
+                } ?? []
+            }
     }
 }
 
@@ -206,13 +244,21 @@ struct BottomView: View {
                 .foregroundStyle(.customWhite)
                 .padding(.bottom, 8)
             HStack {
-                TextField("", text: $text, prompt: Text("Replay To Everyone"))
+                Button {
+                    print("pressed")
+                } label: {
+                    Image(systemName: "photo.on.rectangle")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .tint(.primaryPurple)
+                }
+                TextField("", text: $text, prompt: Text("Replay To Everyone..."))
                     .padding(10)
                     .background(.customWhite)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundStyle(.primaryText)
                 Button {
-                    print("pressed")
+                    sendMessage()
                 } label: {
                     Image("customSend")
                         .resizable()
@@ -221,6 +267,29 @@ struct BottomView: View {
             }
             .padding(.horizontal)
         }
+    }
+    
+    func sendMessage() {
+        let firestore = Firestore.firestore()
+        guard let fromId = Auth.auth().currentUser?.uid else { return }
+
+        let messageData = [
+            "from": fromId,
+            "text": text,
+            "timeStamp": Timestamp()
+        ] as [String: Any]
+        
+        firestore.collection("groupChat")
+            .document("chat1") 
+            .collection("messages")
+            .addDocument(data: messageData) { error in
+                if let error = error {
+                    print("Sending message failed: \(error)")
+                } else {
+                    print("Message sent successfully!")
+                    text = ""
+                }
+            }
     }
 }
 
