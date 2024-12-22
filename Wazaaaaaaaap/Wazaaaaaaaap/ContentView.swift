@@ -118,7 +118,10 @@ struct BottomView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundStyle(.primaryText)
                 Button {
-                    sendMessage()
+                    if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        sendMessage()
+                    }
+                    
                 } label: {
                     Image("customSend")
                         .resizable()
@@ -135,7 +138,7 @@ struct BottomView: View {
 
         let messageData = [
             "from": fromId,
-            "text": text,
+            "text": text.trimmingCharacters(in: .whitespacesAndNewlines), 
             "timeStamp": Timestamp()
         ] as [String: Any]
         
