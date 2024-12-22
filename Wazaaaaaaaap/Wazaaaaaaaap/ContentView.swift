@@ -17,27 +17,33 @@ struct ChatView: View {
     var body: some View {
         VStack {
             HeaderView(profile: $showProfile)
-            ScrollView(showsIndicators: false) {
-                ForEach(messages) { message in
-                    HStack {
-                        if message.from == Auth.auth().currentUser?.uid {
-                            Spacer()
-                            Text(message.text)
-                                .padding()
-                                .background(Color.blue)
-                                .cornerRadius(10)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: 250, alignment: .trailing)
-                        } else {
-                            Text(message.text)
-                                .padding()
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(10)
-                                .frame(maxWidth: 250, alignment: .leading)
-                            Spacer()
+            ScrollViewReader { scrollView in
+                ScrollView(showsIndicators: false) {
+                    ForEach(Array(messages.enumerated()), id: \.element) { idx, message in
+                        HStack {
+                            if message.from == Auth.auth().currentUser?.uid {
+                                Spacer()
+                                Text(message.text)
+                                    .padding()
+                                    .background(Color.blue)
+                                    .cornerRadius(10)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: 250, alignment: .trailing)
+                            } else {
+                                Text(message.text)
+                                    .padding()
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(10)
+                                    .frame(maxWidth: 250, alignment: .leading)
+                                Spacer()
+                            }
                         }
+                        .padding(5)
+                        .id(idx)
                     }
-                    .padding(5)
+                    .onChange(of: messages) { newValue in
+                        scrollView.scrollTo(messages.count - 1, anchor: .bottom)
+                    }
                 }
             }
             BottomView()
@@ -138,7 +144,7 @@ struct BottomView: View {
 
         let messageData = [
             "from": fromId,
-            "text": text.trimmingCharacters(in: .whitespacesAndNewlines), 
+            "text": text.trimmingCharacters(in: .whitespacesAndNewlines),
             "timeStamp": Timestamp()
         ] as [String: Any]
         

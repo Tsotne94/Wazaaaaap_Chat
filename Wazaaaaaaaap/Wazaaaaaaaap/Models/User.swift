@@ -14,7 +14,7 @@ struct User: Codable, Identifiable {
     var surname: String
 }
 
-struct Message: Identifiable, Codable {
+struct Message: Identifiable, Codable, Equatable, Hashable {
     @DocumentID var id: String? 
     let from: String
     let text: String
