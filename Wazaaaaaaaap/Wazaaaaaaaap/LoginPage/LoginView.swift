@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct LoginView: View {
-    
     @ObservedObject var viewModel = LogInViewModel()
     @State private var navigateToRegisterPage = false
     
@@ -62,10 +61,10 @@ struct LoginView: View {
                 )
             }
             .navigationDestination(isPresented: $viewModel.isLogedIn) {
-                ProfileView() //TODO: change ProfileView with chatView
+                ChatView()
             }
             .navigationDestination(isPresented: $navigateToRegisterPage) {
-                //TODO: navigate to register page
+                SignupView()
             }
         }
     }

@@ -56,7 +56,7 @@ struct SignupView: View {
         
         .background(
             NavigationLink(
-                destination: ProfileView(isNavigatingToLogin: $viewModel.shouldNavigateToLogin),
+                destination: LoginView(),
                 isActive: $viewModel.shouldNavigateToLogin,
                 label: { EmptyView() }
             )

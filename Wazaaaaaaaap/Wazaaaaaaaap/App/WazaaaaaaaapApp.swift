@@ -26,17 +26,25 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct WazaaaaaaaapApp: App {
-  // register app delegate for Firebase setup
-  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    // Register app delegate for Firebase setup
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
 
-  var body: some Scene {
-    WindowGroup {
-      NavigationView {
-          SignupView()
-      }
+    var body: some Scene {
+        WindowGroup {
+            NavigationStack {
+                if isLoggedIn {
+                    ChatView()
+                } else {
+                    LoginView()
+                }
+            }
+            .navigationBarBackButtonHidden(true)
+        }
     }
-  }
 }
+
 
 
 
