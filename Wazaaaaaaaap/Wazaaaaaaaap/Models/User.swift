@@ -4,10 +4,12 @@
 //
 //  Created by Cotne Chubinidze on 21.12.24.
 //
-struct User: Codable {
+import FirebaseFirestore
+
+struct User: Codable, Identifiable {
+    @DocumentID var id: String?
+    let uid: String
     let email: String
-    let id: String
-    let name: String
-    let surname: String
-    let username: String
+    var name: String
+    var surname: String
 }
