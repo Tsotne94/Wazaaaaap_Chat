@@ -96,7 +96,14 @@ struct LoginView: View {
     
     private var continueWithGoogleButton: some View {
         Button(action: {
-            
+            viewModel.signInWithGmail(presentation: getRootViewController()) { error in
+                if let error = error {
+                    print("Sign-In Failed: \(error.localizedDescription)")
+                } else {
+                    viewModel.isLogedIn = true
+                    print("Sign-In Successful!")
+                }
+            }
         }) {
             HStack {
                 Image("google")
