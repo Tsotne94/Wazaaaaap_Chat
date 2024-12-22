@@ -44,14 +44,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		1FBC3D272D17078F00496F93 /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapTests" target */ = {
+		1F5A75392D177138007BB7DC /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"GoogleService-Info.plist",
 			);
 			target = 1F9DF2A92D16DC590040D759 /* WazaaaaaaaapTests */;
 		};
-		1FBC3D282D17078F00496F93 /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapUITests" target */ = {
+		1F5A753A2D177138007BB7DC /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"GoogleService-Info.plist",
@@ -72,8 +72,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				3FEA3E222D16F403000EA653 /* Exceptions for "Wazaaaaaaaap" folder in "Wazaaaaaaaap" target */,
-				1FBC3D272D17078F00496F93 /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapTests" target */,
-				1FBC3D282D17078F00496F93 /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapUITests" target */,
+				1F5A75392D177138007BB7DC /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapTests" target */,
+				1F5A753A2D177138007BB7DC /* Exceptions for "Wazaaaaaaaap" folder in "WazaaaaaaaapUITests" target */,
 			);
 			path = Wazaaaaaaaap;
 			sourceTree = "<group>";
