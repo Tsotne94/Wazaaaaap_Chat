@@ -16,7 +16,7 @@ class ChatViewModel: ObservableObject {
         self.fetchMessages()
     }
     
-    func sendMessage() {
+    private func sendMessage() {
         let firestore = Firestore.firestore()
         guard let fromId = Auth.auth().currentUser?.uid else { return }
         
@@ -55,5 +55,12 @@ class ChatViewModel: ObservableObject {
                     try? document.data(as: MessageModel.self)
                 } ?? []
             }
+    }
+    
+    func sendIfNotEmpty() {
+        if !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            sendMessage()
+        }
+        messageText = ""
     }
 }

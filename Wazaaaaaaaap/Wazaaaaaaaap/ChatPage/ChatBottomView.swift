@@ -27,14 +27,17 @@ struct BottomView: View {
                         .tint(.primaryPurple)
                 }
                 
-                TextField("", text: $viewModel.messageText, prompt: Text("Replay To Everyone..."))
+                TextField("", text: $viewModel.messageText, prompt: Text("Replay To Everyone..."), axis: .vertical)
                     .padding(10)
                     .background(.customWhite)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .foregroundStyle(.primaryText)
+                    .onSubmit {
+                        viewModel.sendIfNotEmpty()
+                     }
                 
                 Button {
-                    viewModel.sendMessage()
+                    viewModel.sendIfNotEmpty()
                 } label: {
                     Image("customSend")
                         .resizable()

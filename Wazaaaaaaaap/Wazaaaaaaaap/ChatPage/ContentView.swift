@@ -14,35 +14,41 @@ struct ChatView: View {
     var body: some View {
         VStack {
             HeaderView(profile: $showProfile)
-            ScrollView {
-                ForEach(viewModel.messages) { message in
-                    HStack {
-                        if message.isFromCurrentUser {
-                            Spacer()
-                            Text(message.text)
-                                .padding()
-                                .background(Color.blue)
-                                .cornerRadius(10)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: 250, alignment: .trailing)
-                        } else {
-                            Text(message.text)
-                                .padding()
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(10)
-                                .frame(maxWidth: 250, alignment: .leading)
-                            Spacer()
+            ScrollViewReader { scrollView in
+                ScrollView(showsIndicators: false)  {
+                    ForEach(Array(viewModel.messages.enumerated()), id: \.element) { idx, message in
+                        HStack {
+                            if message.isFromCurrentUser {
+                                Spacer()
+                                Text(message.text)
+                                    .padding()
+                                    .background(Color.blue)
+                                    .cornerRadius(10)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: 250, alignment: .trailing)
+                            } else {
+                                Text(message.text)
+                                    .padding()
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(10)
+                                    .frame(maxWidth: 250, alignment: .leading)
+                                Spacer()
+                            }
                         }
+                        .padding(5)
+                        .id(idx)
                     }
-                    .padding(5)
+                    .onChange(of: viewModel.messages) { newValue in
+                        scrollView.scrollTo(viewModel.messages.count - 1, anchor: .bottom)
+                    }
                 }
+                BottomView()
             }
-            BottomView()
+            .navigationDestination(isPresented: $showProfile) {
+                ProfileView(showProfile: $showProfile)
+            }
+            .navigationBarBackButtonHidden(true)
         }
-        .navigationDestination(isPresented: $showProfile) {
-            ProfileView(showProfile: $showProfile)
-        }
-        .navigationBarBackButtonHidden(true)
     }
 }
 
