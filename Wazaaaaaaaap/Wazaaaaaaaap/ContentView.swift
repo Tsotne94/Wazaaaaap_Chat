@@ -27,20 +27,10 @@ struct ContentView: View {
                 .foregroundStyle(.green)
                 .background(.white)
             Button("press") {
-                signUp()
+//                signUp()
             }
         }
         .padding()
-    }
-    func signUp() {
-        Auth.auth().createUser(withEmail: username, password: password) { result, err in
-            if let err = err {
-                print("failed \(err)")
-            } else {
-                print("yes success \(result)")
-            }
-            
-        }
     }
 }
 

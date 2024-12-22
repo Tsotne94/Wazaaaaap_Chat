@@ -33,7 +33,11 @@ struct SignupView: View {
                     .padding(.bottom, 10)
             }
             
-            Button(action: viewModel.signUpTapped) {
+            Button(action: {
+                Task {
+                    await viewModel.SignUp()
+                }
+            }) {
                 Text("Sign Up")
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -45,7 +49,7 @@ struct SignupView: View {
         }
         .padding(.horizontal, 16)
         .background(Color.white)
-       
+        
     }
 }
 

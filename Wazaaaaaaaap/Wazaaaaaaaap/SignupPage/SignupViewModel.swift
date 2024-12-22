@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import Combine
+import FirebaseAuth
 
 class SignUpViewModel: ObservableObject {
     @Published var fullName: String = ""
@@ -21,13 +22,12 @@ class SignUpViewModel: ObservableObject {
         isSignUpEnabled = !fullName.isEmpty && !userName.isEmpty && !email.isEmpty && !password.isEmpty && password == confirmPassword
     }
     
-    func signUpTapped() {
-        if email.contains("@") {
-            statusMessage = "Sign-up successful!"
-            isSuccess = true
-        } else {
-            statusMessage = "Invalid email address."
-            isSuccess = false
+  
+    func SignUp() async {
+        do {
+            try await Auth.auth().createUser(withEmail: email, password: password)
+        } catch {
+            print("Error during sign-up: \(error.localizedDescription)")
         }
     }
 }

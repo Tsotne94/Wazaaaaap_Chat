@@ -25,7 +25,7 @@ struct WazaaaaaaaapApp: App {
   var body: some Scene {
     WindowGroup {
       NavigationView {
-        ContentView()
+          SignupView()
       }
     }
   }
