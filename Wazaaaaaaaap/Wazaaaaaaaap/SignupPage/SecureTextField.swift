@@ -17,9 +17,9 @@ struct SecureTextField: View {
         VStack(alignment: .leading) {
             Text(title)
                 .font(.custom("Inter", size: 12))
-                .foregroundColor(.gray)
+                .foregroundColor(.secondaryText)
             HStack {
-                Image(systemName: "lock")
+                Image(.customLock)
                     .foregroundColor(.gray)
                 if isSecure {
                     SecureField(placeholder, text: $text)
@@ -27,16 +27,17 @@ struct SecureTextField: View {
                     TextField(placeholder, text: $text)
                 }
                 Button(action: { isSecure.toggle() }) {
-                    Image(systemName: isSecure ? "eye.slash.fill" : "eye.fill")
+                    Image(.customEye)
                         .foregroundColor(.gray)
                 }
             }
             .padding(10)
+            .frame(height: 52)
             .background(Color.white)
             .cornerRadius(8)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.gray, lineWidth: 0.2)
+                    .stroke(Color.gray, lineWidth: 1)
             )
         }
     }

@@ -17,11 +17,25 @@ struct CustomTextField: View {
         VStack(alignment: .leading) {
             Text(title)
                 .font(.custom("Inter", size: 12))
-                .foregroundColor(.gray)
-            TextField(placeholder, text: $text)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(keyboardType)
-                .font(.custom("Inter", size: 15)) 
+                .foregroundColor(.secondaryText)
+            
+            ZStack(alignment: .leading) {
+                if text.isEmpty {
+                    Text(placeholder)
+                        .foregroundColor(.secondaryText)
+                        .font(.custom("Inter", size: 15))
+                        .padding(.horizontal, 10)
+                }
+                TextField("", text: $text)
+                    .padding(10)
+                    .frame(height: 52)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .keyboardType(keyboardType)
+                    .font(.custom("Inter", size: 15))
+            }
         }
     }
 }
