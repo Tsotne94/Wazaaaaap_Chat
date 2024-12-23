@@ -74,7 +74,7 @@ struct ProfileView: View {
                     print("pressed")
                 }
                 .padding()
-                .frame(width: 123)
+                .frame(width: 140)
                 .background(.white)
                 .foregroundColor(.black)
                 .cornerRadius(10)
@@ -83,7 +83,7 @@ struct ProfileView: View {
                     print("pressed")
                 }
                 .padding()
-                .frame(width: 123)
+                .frame(width: 140)
                 .background(.primaryPurple)
                 .foregroundColor(.white)
                 .cornerRadius(10)
