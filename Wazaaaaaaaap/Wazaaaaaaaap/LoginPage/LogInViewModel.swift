@@ -32,6 +32,7 @@ class LogInViewModel: ObservableObject {
                 self?.handleError(error)
                 return
             }
+            self?.isLogedIn = true
         }
     }
     
@@ -89,6 +90,7 @@ class LogInViewModel: ObservableObject {
                     return
                 }
                 completion(nil)
+                self.isLogedIn = true
             }
         }
     }

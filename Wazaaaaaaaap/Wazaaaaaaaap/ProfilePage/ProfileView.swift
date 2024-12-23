@@ -7,6 +7,7 @@ struct ProfileView: View {
     @StateObject private var viewModel = ProfileViewModel()
     @Binding var showProfile: Bool
     @State private var isImagePickerPresented = false
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack(spacing: 20) {
@@ -93,6 +94,7 @@ struct ProfileView: View {
             HStack {
                 Button("Log out") {
                     try? Auth.auth().signOut()
+                    dismiss()
                     print("User logged out")
                 }
                 .padding()

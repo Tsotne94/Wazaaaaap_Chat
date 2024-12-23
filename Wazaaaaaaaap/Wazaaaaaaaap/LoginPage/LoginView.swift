@@ -4,16 +4,17 @@
 //
 //  Created by MacBook on 21.12.24.
 //
-
+import FirebaseAuth
 import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var viewModel = LogInViewModel()
     @State private var navigateToRegisterPage = false
+    @State private var isLoggedIn = false
     
     var body: some View {
         NavigationStack {
-            ZStack{
+            ZStack {
                 backgroundColor
                     .ignoresSafeArea()
                 
@@ -36,9 +37,7 @@ struct LoginView: View {
                     
                     HStack {
                         newUserQuestionLabel
-                        
                         Spacer()
-                        
                         signUpButton
                     }
                     .padding(.leading, 32)
@@ -67,7 +66,13 @@ struct LoginView: View {
                 SignupView()
             }
         }
+        .onAppear {
+            if Auth.auth().currentUser != nil {
+                isLoggedIn = true
+            }
+        }
     }
+
     
     private var backgroundColor: some View {
         Color.customWhite
@@ -109,7 +114,7 @@ struct LoginView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 23, height: 23)
-                
+
                 Text("Continue With Google")
                     .font(.robotoMedium(size: 20))
                     .foregroundColor(.primaryBlack).opacity(0.54)
