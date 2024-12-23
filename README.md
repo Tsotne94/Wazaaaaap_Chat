@@ -9,7 +9,7 @@ The app provides an intuitive and user-friendly experience, combining modern des
 - **Login**: Secure user authentication for accessing the app.
 - **Sign Up**: Easy registration for new users with email and password.
 - **Main Chat**: Real-time messaging with a clean and responsive chat interface.
-- **Profile Page**: View user details, including profile picture and personal information. also user can change languages
+- **Profile Page**: View user details, including profile picture and personal information. Also user can change languages
 
 ## Technology Stack
 - **Language**: Swift
@@ -29,4 +29,4 @@ To run this project locally, you will need:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/YourUsername/WazaaaaapChat.git
+   git clone https://github.com/Tsotne94/Wazaaaaap_Chat.git
