@@ -28,10 +28,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct WazaaaaaaaapApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @State private var showSplash = true
     
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            if showSplash {
+                SplashView(onFinish: {
+                    showSplash = false
+                })
+            } else {
+                LoginView()
+            }
         }
     }
 }
