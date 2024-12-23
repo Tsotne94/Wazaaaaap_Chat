@@ -12,7 +12,7 @@ struct ProfileView: View {
     var body: some View {
         VStack(spacing: 20) {
             if viewModel.isLoading {
-                ProgressView("Loading...")
+                ProgressView(LocalizedStringKey("Loading..."))
                     .frame(width: 120, height: 120)
             } else if let profileImage = viewModel.profileImage {
                 Image(uiImage: profileImage)
@@ -35,13 +35,13 @@ struct ProfileView: View {
             }
             
             VStack(spacing: 5) {
-                Text("Full Name")
+                Text(LocalizedStringKey("Full Name"))
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 
-                TextField("", text: $viewModel.profile.name, prompt: Text("Full Name"))
+                TextField("", text: $viewModel.profile.name, prompt: Text(LocalizedStringKey("Full Name")))
                     .padding(20)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -49,13 +49,13 @@ struct ProfileView: View {
             }
             
             VStack(spacing: 5) {
-                Text("Username")
+                Text(LocalizedStringKey("Username"))
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 
-                TextField("", text: $viewModel.profile.surname, prompt: Text("Username"))
+                TextField("", text: $viewModel.profile.surname, prompt: Text(LocalizedStringKey("Username")))
                     .padding(20)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -63,14 +63,14 @@ struct ProfileView: View {
             }
             
             HStack {
-                Text("Language")
+                Text(LocalizedStringKey("Language"))
                     .foregroundColor(.gray)
                     .padding(.leading)
             }
             .padding()
             
             HStack(spacing: 20) {
-                Button("ქართული") {
+                Button(LocalizedStringKey("ქართული")) {
                     print("pressed")
                 }
                 .padding()
@@ -79,7 +79,7 @@ struct ProfileView: View {
                 .foregroundColor(.black)
                 .cornerRadius(10)
                 
-                Button("English") {
+                Button(LocalizedStringKey("English")) {
                     print("pressed")
                 }
                 .padding()
@@ -92,7 +92,7 @@ struct ProfileView: View {
             Spacer()
         
             HStack {
-                Button("Log out") {
+                Button(LocalizedStringKey("Log out")) {
                     try? Auth.auth().signOut()
                     dismiss()
                     print("User logged out")
@@ -117,12 +117,12 @@ struct ProfileView: View {
                 .foregroundColor(Color(red: 81/255, green: 89/255, blue: 246/255))
             }
             ToolbarItem(placement: .principal) {
-                Text("Your Profile")
+                Text(LocalizedStringKey("Your Profile"))
                     .font(.system(size: 20))
                     .foregroundColor(Color(red: 17/255, green: 21/255, blue: 57/255))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Save") {
+                Button(LocalizedStringKey("Save")) {
                     viewModel.updateProfile()
                     print("Profile saved")
                 }
