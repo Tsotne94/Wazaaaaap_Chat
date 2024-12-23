@@ -114,7 +114,7 @@ struct LoginView: View {
                     .font(.robotoMedium(size: 20))
                     .foregroundColor(.primaryBlack).opacity(0.54)
             }
-            .padding(.horizontal, 49)
+            .frame(width: 327)
             .padding(.top, 15)
             .padding(.bottom, 15)
             .background(.primaryWhite)
@@ -127,8 +127,8 @@ struct LoginView: View {
             viewModel.logIn()
         }) {
             Text("Log In")
+                .frame(width: 327)
                 .font(.interSemiBold(size: 20))
-                .padding(.horizontal, 134)
                 .padding(.top, 20)
                 .padding(.bottom, 20)
                 .foregroundColor(.primaryWhite)
@@ -138,6 +138,12 @@ struct LoginView: View {
     }
 }
 
-#Preview {
+#Preview("English") {
     LoginView()
 }
+
+#Preview("ქართული") {
+    LoginView()
+        .environment(\.locale, Locale(identifier: "ka-GE"))
+}
+

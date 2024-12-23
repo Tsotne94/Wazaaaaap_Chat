@@ -10,8 +10,8 @@ import SwiftUI
 struct LabelAndTextFieldView: View {
     @State private var isSecure: Bool = true
     @Binding var text: String
-    var label: String
-    var placeholder: String
+    var label: LocalizedStringKey
+    var placeholder: LocalizedStringKey
     var isPassword: Bool = false
     
     var body: some View {
@@ -100,3 +100,23 @@ struct LabelAndTextFieldView: View {
     }
     .padding()
 }
+
+#Preview("ქართული") {
+    VStack {
+        LabelAndTextFieldView(
+            text: .constant(""),
+            label: "Email",
+            placeholder: "Enter your email"
+        )
+        
+        LabelAndTextFieldView(
+            text: .constant(""),
+            label: "Password",
+            placeholder: "Enter your password",
+            isPassword: true
+        )
+    }
+    .padding()
+    .environment(\.locale, Locale(identifier: "ka-GE"))
+}
+

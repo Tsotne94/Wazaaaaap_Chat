@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SecureTextField: View {
-    let title: String
-    let placeholder: String
+    let title: LocalizedStringKey
+    let placeholder: LocalizedStringKey
     @Binding var text: String
     @State private var isSecure: Bool = true
     
