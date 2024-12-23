@@ -5,50 +5,74 @@ import SwiftUI
 import PhotosUI
 
 final class ProfileViewModel: ObservableObject {
-    @Published var profile: ProfileModel
+    @Published var profile = User(uid: "", email: "", name: "", surname: "")
     @Published var profileImage: Image? = nil
     @Published var selectedItem: PhotosPickerItem? = nil
     @Published var isLoading: Bool = false
     
     init() {
-        self.profile = ProfileModel(
-            fullName: "John Doe",
-            username: "@jondexa",
-            imageUrl: "",
-            language: .english
-        )
+        fetchUser()
     }
     
-    var localizedTexts: [String: String] {
-        switch profile.language {
-        case .georgian:
-            return [
-                "save": "შენახვა",
-                "profile": "შენი პროფილი",
-                "choosePicture": "აირჩიე პროფილის სურათი",
-                "fullName": "სახელი",
-                "username": "იუზერის სახელი",
-                "language": "ენა",
-                "logout": "გამოსვლა"
-            ]
-        case .english:
-            return [
-                "save": "Save",
-                "profile": "Your Profile",
-                "choosePicture": "Choose Profile Picture",
-                "fullName": "Full Name",
-                "username": "Username",
-                "language": "Language",
-                "logout": "Log out"
-            ]
+    
+    func setImage(from data: Data) {
+        if let uiImage = UIImage(data: data) {
+            profileImage = Image(uiImage: uiImage)
         }
     }
     
+    private func fetchUser() {
+        guard let fromId = Auth.auth().currentUser?.uid else {
+            print("User ID not found.")
+            return
+        }
+        
+        let firestore = Firestore.firestore()
+        firestore.collection("Users")
+            .document(fromId)
+            .getDocument { snapshot, error in
+                if let error = error {
+                    print("Failed fetching username: \(error)")
+                } else {
+                    let user = try? snapshot?.data(as: User.self)
+                    if let user = user {
+                        self.profile = user
+                    }
+                    print("User fetched:)")
+                }
+            }
+    }
+    
+//    var localizedTexts: [String: String] {
+//        switch profile.language {
+//        case .georgian:
+//            return [
+//                "save": "შენახვა",
+//                "profile": "შენი პროფილი",
+//                "choosePicture": "აირჩიე პროფილის სურათი",
+//                "fullName": "სახელი",
+//                "username": "იუზერის სახელი",
+//                "language": "ენა",
+//                "logout": "გამოსვლა"
+//            ]
+//        case .english:
+//            return [
+//                "save": "Save",
+//                "profile": "Your Profile",
+//                "choosePicture": "Choose Profile Picture",
+//                "fullName": "Full Name",
+//                "username": "Username",
+//                "language": "Language",
+//                "logout": "Log out"
+//            ]
+//        }
+//    }
+    
     func updateProfile() {
         guard let user = Auth.auth().currentUser else { return }
-        
+
         let changeRequest = user.createProfileChangeRequest()
-        changeRequest.displayName = profile.fullName
+        changeRequest.displayName = profile.name +  " " + profile.surname
         
         changeRequest.commitChanges { error in
             if let error = error {
@@ -61,73 +85,17 @@ final class ProfileViewModel: ObservableObject {
         storeUserInfo(uid: user.uid)
     }
     
-    func setImage(from data: Data) {
-        if let uiImage = UIImage(data: data) {
-            profileImage = Image(uiImage: uiImage)
-            uploadProfileImage(uiImage)
-        }
-    }
-    
-    func uploadProfileImage(_ image: UIImage) {
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else { return }
-        let storageRef = Storage.storage().reference().child("profile_images/\(UUID().uuidString).jpg")
-        
-        isLoading = true
-        storageRef.putData(imageData, metadata: nil) { metadata, error in
-            self.isLoading = false
-            if let error = error {
-                print("Error uploading image: \(error.localizedDescription)")
-                return
-            }
-            
-            storageRef.downloadURL { url, error in
-                if let url = url {
-                    DispatchQueue.main.async {
-                        self.profile.imageUrl = url.absoluteString
-                    }
-                }
-            }
-        }
-    }
-    
-    func loadImage() {
-        guard let url = URL(string: profile.imageUrl), !profile.imageUrl.isEmpty else {
-            self.profileImage = nil
-            return
-        }
-        
-        isLoading = true
-        Task {
-            do {
-                let imageData = try await fetchImageData(from: url)
-                if let uiImage = UIImage(data: imageData) {
-                    profileImage = Image(uiImage: uiImage)
-                } else {
-                    profileImage = nil
-                }
-            } catch {
-                profileImage = nil
-            }
-            isLoading = false
-        }
-    }
-    
     private func fetchImageData(from url: URL) async throws -> Data {
         let (data, _) = try await URLSession.shared.data(from: url)
         return data
     }
     
-    func changeLanguage(to language: ProfileModel.Language) {
-        profile.language = language
-    }
-    
     private func storeUserInfo(uid: String) {
         let db = Firestore.firestore()
+        let user = User(uid: uid, email:profile.email, name: profile.name, surname: profile.surname)
         
-        db.collection("Users").document(uid).setData([
-            "name": profile.fullName,
-            "mail": profile.username,
-        ]) { error in
+        try? db.collection("Users").document(uid)
+            .setData(from: user) { error in
             if let error = error {
                 print("Error saving user info: \(error.localizedDescription)")
             } else {

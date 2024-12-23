@@ -11,16 +11,58 @@ import FirebaseAuth
 class ChatViewModel: ObservableObject {
     @Published var messageText: String = ""
     @Published var messages = [MessageModel]()
+    private var username: String = ""
+    private var userId: String = ""
     
     init() {
         self.fetchMessages()
+        self.getUserName()
+        self.getId()
+    }
+    
+    private func getUserName() {
+        guard let fromId = Auth.auth().currentUser?.uid else {
+            print("User ID not found.")
+            return
+        }
+        
+        let firestore = Firestore.firestore()
+        firestore.collection("Users")
+            .document(fromId)
+            .getDocument { snapshot, error in
+                if let error = error {
+                    print("Failed fetching username: \(error)")
+                } else {
+                    let user = try? snapshot?.data(as: User.self)
+                    self.username = user?.name ?? "iliko da sandro"
+                    print("Username fetched: \(self.username)")
+                }
+            }
+    }
+    
+    private func getId() {
+        if let id = Auth.auth().currentUser?.uid {
+            self.userId = id
+            print("User ID fetched: \(self.userId)")
+        } else {
+            print("Failed to fetch User ID.")
+        }
     }
     
     private func sendMessage() {
         let firestore = Firestore.firestore()
-        guard let fromId = Auth.auth().currentUser?.uid else { return }
         
-        let message = MessageModel (from: fromId, text: messageText, timeStamp: Timestamp())
+        guard !username.isEmpty else {
+            print("Username is not available. Cannot send message.")
+            return
+        }
+        
+        guard let fromId = Auth.auth().currentUser?.uid else {
+            print("User ID not found. Cannot send message.")
+            return
+        }
+        
+        let message = MessageModel(username: username, from: fromId, text: messageText, timeStamp: Timestamp())
         
         do {
             try firestore.collection("groupChat")
@@ -39,7 +81,6 @@ class ChatViewModel: ObservableObject {
         }
     }
     
-#warning("gpt has been used here!")
     func fetchMessages() {
         let firestore = Firestore.firestore()
         firestore.collection("groupChat")

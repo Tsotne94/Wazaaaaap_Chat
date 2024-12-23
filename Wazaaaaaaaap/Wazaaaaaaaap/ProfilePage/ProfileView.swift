@@ -32,7 +32,7 @@ struct ProfileView: View {
                 matching: .images,
                 photoLibrary: .shared()
             ) {
-                Text(viewModel.localizedTexts["choosePicture"] ?? "Choose Profile Picture")
+                Text("Choose Profile Picture")
                     .foregroundColor(.blue)
             }
             .onChange(of: viewModel.selectedItem) { newItem in
@@ -44,13 +44,13 @@ struct ProfileView: View {
             }
             
             VStack(spacing: 5) {
-                Text(viewModel.localizedTexts["fullName"] ?? "Full Name")
+                Text("Full Name")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 
-                TextField("", text: $viewModel.profile.fullName, prompt: Text(viewModel.localizedTexts["fullName"] ?? "Full Name")
+                TextField("", text: $viewModel.profile.name, prompt: Text("Full Name")
                 )
                 .padding(20)
                 .background(.white)
@@ -60,14 +60,13 @@ struct ProfileView: View {
             }
             
             VStack(spacing: 5) {
-                Text(viewModel.localizedTexts["username"] ?? "Username")
+                Text("Username")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 
-                TextField("", text: $viewModel.profile.username, prompt: Text(viewModel.localizedTexts["username"] ?? "Username")
-                )
+                TextField("", text: $viewModel.profile.surname, prompt: Text("Username"))
                 .padding(20)
                 .background(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -76,7 +75,7 @@ struct ProfileView: View {
             }
             
             HStack {
-                Text(viewModel.localizedTexts["language"] ?? "Language")
+                Text("Language")
             }
             .padding()
             .foregroundColor(.gray)
@@ -99,6 +98,7 @@ struct ProfileView: View {
             Button(viewModel.localizedTexts["logout"] ?? "Log out") {
                 try? Auth.auth().signOut()
                 print("User logged out")
+                
             }
             .padding()
             .font(.system(size: 20))
@@ -119,12 +119,12 @@ struct ProfileView: View {
                 .foregroundColor(Color(red: 81/255, green: 89/255, blue: 246/255))
             }
             ToolbarItem(placement: .principal) {
-                Text(viewModel.localizedTexts["profile"] ?? "Your Profile")
+                Text("Your Profile")
                     .font(.system(size: 20))
                     .foregroundColor(Color(red: 17/255, green: 21/255, blue: 57/255))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(viewModel.localizedTexts["save"] ?? "Save") {
+                Button("Save") {
                     viewModel.updateProfile()
                     print("Profile saved")
                 }

@@ -14,31 +14,18 @@ struct WazaaaaaaaapApp: App {
     
     init() {
         FirebaseApp.configure()
-        checkAuthenticationStatus()
     }
-    
-    @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
     
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                if isLoggedIn {
+                if Auth.auth().currentUser != nil {
                     ChatView()
                 } else {
                     LoginView()
                 }
             }
             .navigationBarBackButtonHidden(true)
-        }
-    }
-    
-    private func checkAuthenticationStatus() {
-        if let _ = Auth.auth().currentUser {
-            isLoggedIn = true
-            print("User is logged in.")
-        } else {
-            isLoggedIn = false
-            print("No user is signed in.")
         }
     }
 }

@@ -14,20 +14,15 @@ import FirebaseCore
 class LogInViewModel: ObservableObject {
     @Published var email: String
     @Published var password: String
-    @Published var isLogedIn: Bool = false {
-        didSet {
-            saveIsLoggedInState(isLogedIn)
-        }
-    }
     @Published var errorMessage: String?
     @Published var showAlert: Bool = false
+    @Published var isLogedIn: Bool = false
     
     private var userDefault = UserDefaults.standard
     
     init(email: String = "", password: String = "") {
         self.email = email
         self.password = password
-        self.isLogedIn = isLogedIn
         self.isLogedIn = Auth.auth().currentUser != nil
     }
     
@@ -36,11 +31,6 @@ class LogInViewModel: ObservableObject {
             if let error = error {
                 self?.handleError(error)
                 return
-            }
-
-            DispatchQueue.main.async {
-                self?.isLogedIn = true
-                self?.saveIsLoggedInState(self?.isLogedIn ?? true)
             }
         }
     }
@@ -98,20 +88,8 @@ class LogInViewModel: ObservableObject {
                     completion(error)
                     return
                 }
-                
-                DispatchQueue.main.async {
-                    self.isLogedIn = true
-                }
-
                 completion(nil)
             }
-        }
-    }
-    
-    func saveIsLoggedInState(_ state: Bool) {
-        DispatchQueue.global(qos: .background).async {
-            self.userDefault.set(state, forKey: "isLoggedIn")
-            self.userDefault.synchronize()
         }
     }
     
