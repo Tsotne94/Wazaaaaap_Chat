@@ -32,6 +32,10 @@ class LogInViewModel: ObservableObject {
                 self?.handleError(error)
                 return
             }
+            self?.isLogedIn = true
+            self?.isLogedIn = true
+            self?.password = ""
+            self?.email = ""
         }
     }
     
@@ -83,12 +87,15 @@ class LogInViewModel: ObservableObject {
 
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
 
-            Auth.auth().signIn(with: credential) { authResult, error in
+            Auth.auth().signIn(with: credential) { [weak self]  authResult, error in
                 if let error = error {
                     completion(error)
                     return
                 }
                 completion(nil)
+                self?.isLogedIn = true
+                self?.password = ""
+                self?.email = ""
             }
         }
     }

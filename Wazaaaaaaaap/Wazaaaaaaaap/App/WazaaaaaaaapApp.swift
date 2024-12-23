@@ -9,15 +9,27 @@ import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
 
-@main
-struct WazaaaaaaaapApp: App {
-    
-    init() {
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        
+        return true
     }
     
-    @State private var showSplash = true 
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
+    }
+}
 
+@main
+struct WazaaaaaaaapApp: App {
+    // register app delegate for Firebase setup
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @State private var showSplash = true
+    
     var body: some Scene {
         WindowGroup {
             if showSplash {
@@ -25,21 +37,8 @@ struct WazaaaaaaaapApp: App {
                     showSplash = false
                 })
             } else {
-                NavigationStack {
-                    if Auth.auth().currentUser != nil {
-                        ChatView()
-                    } else {
-                        LoginView()
-                    }
-                }
-                .navigationBarBackButtonHidden(true)
+                LoginView()
             }
         }
     }
 }
-
-
-
-
-
-
