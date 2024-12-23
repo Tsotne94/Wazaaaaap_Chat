@@ -16,16 +16,24 @@ struct WazaaaaaaaapApp: App {
         FirebaseApp.configure()
     }
     
+    @State private var showSplash = true 
+
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                if Auth.auth().currentUser != nil {
-                    ChatView()
-                } else {
-                    LoginView()
+            if showSplash {
+                SplashView(onFinish: {
+                    showSplash = false
+                })
+            } else {
+                NavigationStack {
+                    if Auth.auth().currentUser != nil {
+                        ChatView()
+                    } else {
+                        LoginView()
+                    }
                 }
+                .navigationBarBackButtonHidden(true)
             }
-            .navigationBarBackButtonHidden(true)
         }
     }
 }
