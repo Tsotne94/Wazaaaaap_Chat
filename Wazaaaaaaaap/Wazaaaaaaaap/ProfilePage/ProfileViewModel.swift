@@ -124,10 +124,9 @@ final class ProfileViewModel: ObservableObject {
     private func storeUserInfo(uid: String) {
         let db = Firestore.firestore()
         
-        db.collection("users").document(uid).setData([
-            "fullName": profile.fullName,
-            "username": profile.username,
-            "language": profile.language.rawValue
+        db.collection("Users").document(uid).setData([
+            "name": profile.fullName,
+            "mail": profile.username,
         ]) { error in
             if let error = error {
                 print("Error saving user info: \(error.localizedDescription)")

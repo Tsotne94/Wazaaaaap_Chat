@@ -7,30 +7,18 @@
 import SwiftUI
 import FirebaseCore
 import GoogleSignIn
-
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        FirebaseApp.configure()
-        
-        return true
-    }
-    
-    func application(_ app: UIApplication,
-                     open url: URL,
-                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        return GIDSignIn.sharedInstance.handle(url)
-    }
-}
+import FirebaseAuth
 
 @main
 struct WazaaaaaaaapApp: App {
-    // Register app delegate for Firebase setup
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    init() {
+        FirebaseApp.configure()
+        checkAuthenticationStatus()
+    }
     
     @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
-
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack {
@@ -43,7 +31,18 @@ struct WazaaaaaaaapApp: App {
             .navigationBarBackButtonHidden(true)
         }
     }
+    
+    private func checkAuthenticationStatus() {
+        if let _ = Auth.auth().currentUser {
+            isLoggedIn = true
+            print("User is logged in.")
+        } else {
+            isLoggedIn = false
+            print("No user is signed in.")
+        }
+    }
 }
+
 
 
 
