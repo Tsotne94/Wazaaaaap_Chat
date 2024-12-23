@@ -36,9 +36,14 @@ struct ProfileView: View {
                     .foregroundColor(.blue)
             }
             .onChange(of: viewModel.selectedItem) { newItem in
+                guard let newItem = newItem else { return }
                 Task {
-                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                        viewModel.setImage(from: data)
+                    do {
+                        if let data = try await newItem.loadTransferable(type: Data.self) {
+                            viewModel.setImage(from: data)
+                        }
+                    } catch {
+                        print("Error loading image data: \(error)")
                     }
                 }
             }
@@ -50,13 +55,11 @@ struct ProfileView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 
-                TextField("", text: $viewModel.profile.name, prompt: Text("Full Name")
-                )
-                .padding(20)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .foregroundStyle(.primaryText)
-                .padding(.horizontal)
+                TextField("", text: $viewModel.profile.name, prompt: Text("Full Name"))
+                    .padding(20)
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal)
             }
             
             VStack(spacing: 5) {
@@ -65,13 +68,14 @@ struct ProfileView: View {
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
+                    .foregroundStyle(.primaryText)
                 
                 TextField("", text: $viewModel.profile.surname, prompt: Text("Username"))
-                .padding(20)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .foregroundStyle(.primaryText)
-                .padding(.horizontal)
+                    .padding(20)
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal)
+                    .foregroundStyle(.primaryText)
             }
             
             HStack {
@@ -81,21 +85,28 @@ struct ProfileView: View {
             .foregroundColor(.gray)
             
             HStack {
-                ForEach(ProfileModel.Language.allCases, id: \.self) { language in
-                    Button(language.rawValue) {
-                        viewModel.changeLanguage(to: language)
-                    }
-                    .padding()
-                    .frame(width: 123)
-                    .background(viewModel.profile.language == language ? Color(red: 81/255, green: 89/255, blue: 246/255) : Color(red: 255/255, green: 255/255, blue: 255/255))
-                    .foregroundColor(viewModel.profile.language == language ? .white : .black)
-                    .cornerRadius(10)
+                Button("ქართული") {
+                    print("pressed")
                 }
+                .padding()
+                .frame(width: 123)
+                .background(.white)
+                .foregroundColor(.black)
+                .cornerRadius(10)
+                
+                Button("English") {
+                    print("pressed")
+                }
+                .padding()
+                .frame(width: 123)
+                .background(.primaryPurple)
+                .foregroundColor(.white)
+                .cornerRadius(10)
             }
             
             Spacer()
             
-            Button(viewModel.localizedTexts["logout"] ?? "Log out") {
+            Button("Log out") {
                 try? Auth.auth().signOut()
                 print("User logged out")
                 
