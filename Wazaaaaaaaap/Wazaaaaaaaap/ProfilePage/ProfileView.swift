@@ -6,107 +6,103 @@ import FirebaseAuth
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileViewModel()
     @Binding var showProfile: Bool
-    @State var isNavigatingToLogin: Bool = false
+    @State private var isImagePickerPresented = false
     
     var body: some View {
         VStack(spacing: 20) {
             if viewModel.isLoading {
                 ProgressView("Loading...")
                     .frame(width: 120, height: 120)
-            } else if let image = viewModel.profileImage {
-                image
+            } else if let profileImage = viewModel.profileImage {
+                Image(uiImage: profileImage)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 120, height: 120)
                     .clipShape(Circle())
+                    .onTapGesture {
+                        isImagePickerPresented.toggle()
+                    }
             } else {
                 Image("Avatar")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 120, height: 120)
                     .clipShape(Circle())
-            }
-            
-            PhotosPicker(
-                selection: $viewModel.selectedItem,
-                matching: .images,
-                photoLibrary: .shared()
-            ) {
-                Text(viewModel.localizedTexts["choosePicture"] ?? "Choose Profile Picture")
-                    .foregroundColor(.blue)
-            }
-            .onChange(of: viewModel.selectedItem) { newItem in
-                Task {
-                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                        viewModel.setImage(from: data)
+                    .onTapGesture {
+                        isImagePickerPresented.toggle()
                     }
-                }
             }
             
             VStack(spacing: 5) {
-                Text(viewModel.localizedTexts["fullName"] ?? "Full Name")
+                Text("Full Name")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 
-                TextField("", text: $viewModel.profile.fullName, prompt: Text(viewModel.localizedTexts["fullName"] ?? "Full Name")
-                )
-                .padding(20)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .foregroundStyle(.primaryText)
-                .padding(.horizontal)
+                TextField("", text: $viewModel.profile.name, prompt: Text("Full Name"))
+                    .padding(20)
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal)
             }
             
             VStack(spacing: 5) {
-                Text(viewModel.localizedTexts["username"] ?? "Username")
+                Text("Username")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 
-                TextField("", text: $viewModel.profile.username, prompt: Text(viewModel.localizedTexts["username"] ?? "Username")
-                )
-                .padding(20)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .foregroundStyle(.primaryText)
-                .padding(.horizontal)
+                TextField("", text: $viewModel.profile.surname, prompt: Text("Username"))
+                    .padding(20)
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal)
             }
             
             HStack {
-                Text(viewModel.localizedTexts["language"] ?? "Language")
+                Text("Language")
+                    .foregroundColor(.gray)
+                    .padding(.leading)
             }
             .padding()
-            .foregroundColor(.gray)
             
-            HStack {
-                ForEach(ProfileModel.Language.allCases, id: \.self) { language in
-                    Button(language.rawValue) {
-                        viewModel.changeLanguage(to: language)
-                    }
-                    .padding()
-                    .frame(width: 123)
-                    .background(viewModel.profile.language == language ? Color(red: 81/255, green: 89/255, blue: 246/255) : Color(red: 255/255, green: 255/255, blue: 255/255))
-                    .foregroundColor(viewModel.profile.language == language ? .white : .black)
-                    .cornerRadius(10)
+            HStack(spacing: 20) {
+                Button("ქართული") {
+                    print("pressed")
                 }
+                .padding()
+                .frame(width: 123)
+                .background(.white)
+                .foregroundColor(.black)
+                .cornerRadius(10)
+                
+                Button("English") {
+                    print("pressed")
+                }
+                .padding()
+                .frame(width: 123)
+                .background(.primaryPurple)
+                .foregroundColor(.white)
+                .cornerRadius(10)
             }
             
             Spacer()
-            
-            Button(viewModel.localizedTexts["logout"] ?? "Log out") {
-                try? Auth.auth().signOut()
-                print("User logged out")
+        
+            HStack {
+                Button("Log out") {
+                    try? Auth.auth().signOut()
+                    print("User logged out")
+                }
+                .padding()
+                .font(.system(size: 20))
+                .fontWeight(.bold)
+                .frame(maxWidth: 135)
+                .background(Color.red)
+                .foregroundColor(.white)
+                .cornerRadius(12)
             }
-            .padding()
-            .font(.system(size: 20))
-            .fontWeight(.bold)
-            .frame(maxWidth: 135)
-            .background(Color.red)
-            .foregroundColor(.white)
-            .cornerRadius(12)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -119,12 +115,12 @@ struct ProfileView: View {
                 .foregroundColor(Color(red: 81/255, green: 89/255, blue: 246/255))
             }
             ToolbarItem(placement: .principal) {
-                Text(viewModel.localizedTexts["profile"] ?? "Your Profile")
+                Text("Your Profile")
                     .font(.system(size: 20))
                     .foregroundColor(Color(red: 17/255, green: 21/255, blue: 57/255))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(viewModel.localizedTexts["save"] ?? "Save") {
+                Button("Save") {
                     viewModel.updateProfile()
                     print("Profile saved")
                 }
@@ -133,8 +129,19 @@ struct ProfileView: View {
             }
         }
         .background(Color(red: 241/255, green: 242/255, blue: 246/255))
+        .sheet(isPresented: $isImagePickerPresented) {
+            ImagePicker(image: $viewModel.profileImage)
+                .onChange(of: viewModel.profileImage) { newImage in
+                    if let newImage = newImage {
+                        viewModel.uploadProfileImage()
+                    }
+                }
+        }
     }
 }
+
+
+
 
 
 

@@ -7,6 +7,7 @@
 import SwiftUI
 import Combine
 import FirebaseAuth
+import Firebase
 
 final class SignUpViewModel: ObservableObject {
     @Published var fullName: String = ""
@@ -34,31 +35,47 @@ final class SignUpViewModel: ObservableObject {
         return (true, nil)
     }
     
-    
-    
     func SignUp() async {
         let validationResult = validateForm()
         
-        DispatchQueue.main.async {
-            self.statusMessage = validationResult.message
+        DispatchQueue.main.async { [weak self] in
+            self?.statusMessage = validationResult.message
         }
         if !validationResult.isValid {
             return
         }
         do {
             try await Auth.auth().createUser(withEmail: email, password: password)
+            saveUserInfo()
             
-            DispatchQueue.main.async {
-                self.statusMessage = "Sign-up successful!"
-                self.isSuccess = true
-                self.shouldNavigateToLogin = true
+            DispatchQueue.main.async { [weak self] in
+                self?.statusMessage = "Sign-up successful!"
+                self?.isSuccess = true
+                self?.shouldNavigateToLogin = true
             }
-            
         }
         catch {
-            DispatchQueue.main.async {
-                self.statusMessage = "Error during sign-up: \(error.localizedDescription)"
+            DispatchQueue.main.async { [weak self] in
+                self?.statusMessage = "Error during sign-up: \(error.localizedDescription)"
             }
+        }
+    }
+    
+    func saveUserInfo() {
+        let firestore = Firestore.firestore()
+        guard let id = Auth.auth().currentUser?.uid else { return }
+        guard let mail = Auth.auth().currentUser?.email else { return }
+        let user = User(uid: id, email: mail, name: userName, surname: fullName)
+        do {
+            try firestore.collection("Users")
+                .document(id)
+                .setData(from: user) { error in
+                    if let error = error {
+                        print("failed to save user data \(user)")
+                    }
+                }
+        } catch {
+            print("failed saving user data")
         }
     }
     

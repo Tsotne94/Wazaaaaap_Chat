@@ -1,46 +1,48 @@
 import Firebase
 import FirebaseAuth
-import FirebaseStorage
+import FirebaseFirestore
 import SwiftUI
-import PhotosUI
 
 final class ProfileViewModel: ObservableObject {
-    @Published var profile: ProfileModel
-    @Published var profileImage: Image? = nil
-    @Published var selectedItem: PhotosPickerItem? = nil
+    @Published var profile = User(uid: "", email: "", name: "", surname: "", ImageUrl: "")
+    @Published var profileImage: UIImage? = nil
     @Published var isLoading: Bool = false
+    @Published var shouldShowImagePicker: Bool = false
     
     init() {
-        self.profile = ProfileModel(
-            fullName: "John Doe",
-            username: "@jondexa",
-            imageUrl: "",
-            language: .english
-        )
+        fetchUser()
     }
     
-    var localizedTexts: [String: String] {
-        switch profile.language {
-        case .georgian:
-            return [
-                "save": "შენახვა",
-                "profile": "შენი პროფილი",
-                "choosePicture": "აირჩიე პროფილის სურათი",
-                "fullName": "სახელი",
-                "username": "იუზერის სახელი",
-                "language": "ენა",
-                "logout": "გამოსვლა"
-            ]
-        case .english:
-            return [
-                "save": "Save",
-                "profile": "Your Profile",
-                "choosePicture": "Choose Profile Picture",
-                "fullName": "Full Name",
-                "username": "Username",
-                "language": "Language",
-                "logout": "Log out"
-            ]
+    private func fetchUser() {
+        guard let fromId = Auth.auth().currentUser?.uid else {
+            print("User ID not found.")
+            return
+        }
+        
+        let firestore = Firestore.firestore()
+        firestore.collection("Users")
+            .document(fromId)
+            .getDocument { snapshot, error in
+                if let error = error {
+                    print("Failed fetching user: \(error)")
+                } else {
+                    let user = try? snapshot?.data(as: User.self)
+                    if let user = user {
+                        self.profile = user
+                        if !user.ImageUrl.isEmpty {
+                            self.loadProfileImage(from: user.ImageUrl)
+                        }
+                    }
+                    print("User fetched successfully")
+                }
+            }
+    }
+    
+    private func loadProfileImage(from urlString: String) {
+        ImageManager.shared.fetchImage(from: urlString) { [weak self] image in
+            DispatchQueue.main.async {
+                self?.profileImage = image
+            }
         }
     }
     
@@ -48,7 +50,7 @@ final class ProfileViewModel: ObservableObject {
         guard let user = Auth.auth().currentUser else { return }
         
         let changeRequest = user.createProfileChangeRequest()
-        changeRequest.displayName = profile.fullName
+        changeRequest.displayName = profile.name + " " + profile.surname
         
         changeRequest.commitChanges { error in
             if let error = error {
@@ -57,77 +59,34 @@ final class ProfileViewModel: ObservableObject {
                 print("Profile updated successfully.")
             }
         }
-        
         storeUserInfo(uid: user.uid)
     }
     
-    func setImage(from data: Data) {
-        if let uiImage = UIImage(data: data) {
-            profileImage = Image(uiImage: uiImage)
-            uploadProfileImage(uiImage)
-        }
-    }
-    
-    func uploadProfileImage(_ image: UIImage) {
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else { return }
-        let storageRef = Storage.storage().reference().child("profile_images/\(UUID().uuidString).jpg")
-        
-        isLoading = true
-        storageRef.putData(imageData, metadata: nil) { metadata, error in
-            self.isLoading = false
-            if let error = error {
-                print("Error uploading image: \(error.localizedDescription)")
-                return
-            }
-            
-            storageRef.downloadURL { url, error in
-                if let url = url {
-                    DispatchQueue.main.async {
-                        self.profile.imageUrl = url.absoluteString
-                    }
-                }
-            }
-        }
-    }
-    
-    func loadImage() {
-        guard let url = URL(string: profile.imageUrl), !profile.imageUrl.isEmpty else {
-            self.profileImage = nil
+    func uploadProfileImage() {
+        guard let profileImage = profileImage else {
+            print("No profile image selected")
             return
         }
         
-        isLoading = true
-        Task {
-            do {
-                let imageData = try await fetchImageData(from: url)
-                if let uiImage = UIImage(data: imageData) {
-                    profileImage = Image(uiImage: uiImage)
-                } else {
-                    profileImage = nil
+        guard let user = Auth.auth().currentUser else { return }
+        
+        ImageManager.shared.uploadImage(profileImage, for: user.uid) { [weak self] url in
+            if let url = url {
+                DispatchQueue.main.async {
+                    self?.profile.ImageUrl = url
                 }
-            } catch {
-                profileImage = nil
+            } else {
+                print("Failed to upload profile image.")
             }
-            isLoading = false
         }
-    }
-    
-    private func fetchImageData(from url: URL) async throws -> Data {
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return data
-    }
-    
-    func changeLanguage(to language: ProfileModel.Language) {
-        profile.language = language
     }
     
     private func storeUserInfo(uid: String) {
         let db = Firestore.firestore()
+        let user = User(uid: uid, email: profile.email, name: profile.name, surname: profile.surname, ImageUrl: profile.ImageUrl)
         
-        db.collection("Users").document(uid).setData([
-            "name": profile.fullName,
-            "mail": profile.username,
-        ]) { error in
+        try? db.collection("Users").document(uid)
+            .setData(from: user) { error in
             if let error = error {
                 print("Error saving user info: \(error.localizedDescription)")
             } else {
@@ -136,3 +95,8 @@ final class ProfileViewModel: ObservableObject {
         }
     }
 }
+
+
+
+
+

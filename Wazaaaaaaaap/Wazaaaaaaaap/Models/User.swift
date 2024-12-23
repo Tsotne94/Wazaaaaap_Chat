@@ -13,15 +13,5 @@ struct User: Codable, Identifiable {
     let email: String
     var name: String
     var surname: String
-}
-
-struct MessageModel: Identifiable, Codable, Hashable, Equatable {
-    @DocumentID var id: String?
-    let from: String
-    let text: String
-    let timeStamp: Timestamp
-    
-    var isFromCurrentUser: Bool {
-        from == Auth.auth().currentUser?.uid
-    }
+    var ImageUrl: String = ""
 }
