@@ -1,0 +1,283 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "@%@" : {
+
+    },
+    "Confirm Password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "დაადასტურე პაროლი"
+          }
+        }
+      }
+    },
+    "Continue With Google" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google-ით გაგრძელება"
+          }
+        }
+      }
+    },
+    "Email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ელ.ფოსტა"
+          }
+        }
+      }
+    },
+    "English" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ინგლისური"
+          }
+        }
+      }
+    },
+    "Enter Password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შეიყვანე პაროლი"
+          }
+        }
+      }
+    },
+    "Enter your email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შეიყვანე შენი ელ.ფოსტა"
+          }
+        }
+      }
+    },
+    "Enter your password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შეიყვანე შენი პაროლი"
+          }
+        }
+      }
+    },
+    "Full Name" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "სახელი"
+          }
+        }
+      }
+    },
+    "Language" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ენა"
+          }
+        }
+      }
+    },
+    "Loading..." : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "იტვირთება…"
+          }
+        }
+      }
+    },
+    "Log In" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შესვლა"
+          }
+        }
+      }
+    },
+    "Log out" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "გამოსვლა"
+          }
+        }
+      }
+    },
+    "Login Error" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შესვლის შეცდომა"
+          }
+        }
+      }
+    },
+    "New To Wazaaaaap?" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ახალი ხარ Wazaaaaap-ზე?"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "თანხმობა"
+          }
+        }
+      }
+    },
+    "Password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "პაროლი"
+          }
+        }
+      }
+    },
+    "Replay To Everyone..." : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "უპასუხე ყველას…"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შენახვა"
+          }
+        }
+      }
+    },
+    "Sign up" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "რეგისტრაცია"
+          }
+        }
+      }
+    },
+    "Sign Up" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "რეგისტრაცია"
+          }
+        }
+      }
+    },
+    "Username" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "მომხმარებლის სახელი"
+          }
+        }
+      }
+    },
+    "Wazaaaaaap" : {
+
+    },
+    "Wazaaaaap" : {
+
+    },
+    "Your email address" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შენი ელ.ფოსტის მისამართი"
+          }
+        }
+      }
+    },
+    "Your full name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შენი სახელი"
+          }
+        }
+      }
+    },
+    "Your password" : {
+
+    },
+    "Your Profile" : {
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შენი პროფილი"
+          }
+        }
+      }
+    },
+    "Your username" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ka-GE" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შენი მომხამრებლის სახელი"
+          }
+        }
+      }
+    },
+    "ქართული" : {
+
+    }
+  },
+  "version" : "1.0"
+}

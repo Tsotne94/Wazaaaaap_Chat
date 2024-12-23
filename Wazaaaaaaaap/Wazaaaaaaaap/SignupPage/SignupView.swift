@@ -69,3 +69,11 @@ struct ContentView_Previews: PreviewProvider {
         SignupView()
     }
 }
+
+struct ContentView_PreviewsGeorgian: PreviewProvider {
+    static var previews: some View {
+        SignupView()
+            .environment(\.locale, Locale(identifier: "ka-GE"))
+    }
+}
+

@@ -141,7 +141,11 @@ struct ProfileView: View {
 }
 
 
+#Preview("English") {
+    ProfileView(showProfile: .constant(true))
+}
 
-
-
-
+#Preview("ქართული") {
+    ProfileView(showProfile: .constant(true))
+        .environment(\.locale, Locale(identifier: "ka-GE"))
+}

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CustomTextField: View {
-    let title: String
-    let placeholder: String
+    let title: LocalizedStringKey
+    let placeholder: LocalizedStringKey
     @Binding var text: String
     var keyboardType: UIKeyboardType = .default
     
