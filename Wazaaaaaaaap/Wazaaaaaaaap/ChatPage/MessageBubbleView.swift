@@ -8,7 +8,8 @@ import SwiftUI
 
 struct MessageBubble: View {
     var message: MessageModel
-    
+    @State private var profileImage: UIImage? = nil
+
     var body: some View {
         HStack {
             if message.isFromCurrentUser {
@@ -28,13 +29,25 @@ struct MessageBubble: View {
                 .padding(.trailing, 8)
             } else {
                 HStack(alignment: .top, spacing: 8) {
-                    Image(systemName: "person.fill")
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                        .scaledToFill()
-                        .clipShape(Circle())
-                        .padding(.leading, 8)
-                    
+                    if let image = profileImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .frame(width: 32, height: 32)
+                            .scaledToFill()
+                            .clipShape(Circle())
+                            .padding(.leading, 8)
+                    } else {
+                        Image(systemName: "person.fill")
+                            .resizable()
+                            .frame(width: 32, height: 32)
+                            .scaledToFill()
+                            .clipShape(Circle())
+                            .padding(.leading, 8)
+                            .onAppear {
+                                fetchProfileImage()
+                            }
+                    }
+
                     VStack(alignment: .leading, spacing: 4) {
                         Text("@\(message.username)")
                             .foregroundColor(.primaryPurple)
@@ -52,6 +65,24 @@ struct MessageBubble: View {
                     .frame(maxWidth: 250, alignment: .leading)
                 }
                 Spacer()
+            }
+        }
+    }
+
+    private func fetchProfileImage() {
+        guard let profileImageUrl = URL(string: message.profileImageUrl), !message.profileImageUrl.isEmpty else {
+            return
+        }
+        
+        let fileName = profileImageUrl.lastPathComponent
+        
+        if let cachedImage = ImageManager.shared.getCachedImage(fileName: fileName) {
+            profileImage = cachedImage
+        } else {
+            ImageManager.shared.fetchImage(from: profileImageUrl.absoluteString) { image in
+                DispatchQueue.main.async {
+                    self.profileImage = image
+                }
             }
         }
     }

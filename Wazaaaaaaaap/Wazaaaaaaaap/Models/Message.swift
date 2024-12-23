@@ -6,15 +6,18 @@
 //
 import FirebaseFirestore
 import FirebaseAuth
+import Firebase
 
 struct MessageModel: Identifiable, Codable, Hashable, Equatable {
     @DocumentID var id: String?
     let username: String
     let from: String
     let text: String
-    let timeStamp: Timestamp
+    var timeStamp = Timestamp().dateValue()
+    var profileImageUrl: String
     
     var isFromCurrentUser: Bool {
         from == Auth.auth().currentUser?.uid
     }
 }
+

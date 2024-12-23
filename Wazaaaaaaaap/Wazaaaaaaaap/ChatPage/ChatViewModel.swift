@@ -13,6 +13,7 @@ class ChatViewModel: ObservableObject {
     @Published var messages = [MessageModel]()
     private var username: String = ""
     private var userId: String = ""
+    private var profileImageUrl: String = "" 
     
     init() {
         self.fetchMessages()
@@ -31,10 +32,11 @@ class ChatViewModel: ObservableObject {
             .document(fromId)
             .getDocument { snapshot, error in
                 if let error = error {
-                    print("Failed fetching username: \(error)")
+                    print("Failed fetching user data: \(error)")
                 } else {
                     let user = try? snapshot?.data(as: User.self)
                     self.username = user?.name ?? "iliko da sandro"
+                    self.profileImageUrl = user?.ImageUrl ?? ""
                     print("Username fetched: \(self.username)")
                 }
             }
@@ -50,22 +52,20 @@ class ChatViewModel: ObservableObject {
     }
     
     private func sendMessage() {
-        let firestore = Firestore.firestore()
-        
-        guard !username.isEmpty else {
-            print("Username is not available. Cannot send message.")
-            return
-        }
-        
         guard let fromId = Auth.auth().currentUser?.uid else {
             print("User ID not found. Cannot send message.")
             return
         }
         
-        let message = MessageModel(username: username, from: fromId, text: messageText, timeStamp: Timestamp())
+        let message = MessageModel(
+            username: username,
+            from: fromId,
+            text: messageText,
+            profileImageUrl: profileImageUrl
+        )
         
         do {
-            try firestore.collection("groupChat")
+            try Firestore.firestore().collection("groupChat")
                 .document("chat1")
                 .collection("messages")
                 .addDocument(from: message) { [weak self] error in

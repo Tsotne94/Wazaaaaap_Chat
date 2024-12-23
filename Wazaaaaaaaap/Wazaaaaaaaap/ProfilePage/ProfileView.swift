@@ -6,46 +6,31 @@ import FirebaseAuth
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileViewModel()
     @Binding var showProfile: Bool
-    @State var isNavigatingToLogin: Bool = false
+    @State private var isImagePickerPresented = false
     
     var body: some View {
         VStack(spacing: 20) {
             if viewModel.isLoading {
                 ProgressView("Loading...")
                     .frame(width: 120, height: 120)
-            } else if let image = viewModel.profileImage {
-                image
+            } else if let profileImage = viewModel.profileImage {
+                Image(uiImage: profileImage)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 120, height: 120)
                     .clipShape(Circle())
+                    .onTapGesture {
+                        isImagePickerPresented.toggle()
+                    }
             } else {
                 Image("Avatar")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 120, height: 120)
                     .clipShape(Circle())
-            }
-            
-            PhotosPicker(
-                selection: $viewModel.selectedItem,
-                matching: .images,
-                photoLibrary: .shared()
-            ) {
-                Text("Choose Profile Picture")
-                    .foregroundColor(.blue)
-            }
-            .onChange(of: viewModel.selectedItem) { newItem in
-                guard let newItem = newItem else { return }
-                Task {
-                    do {
-                        if let data = try await newItem.loadTransferable(type: Data.self) {
-                            viewModel.setImage(from: data)
-                        }
-                    } catch {
-                        print("Error loading image data: \(error)")
+                    .onTapGesture {
+                        isImagePickerPresented.toggle()
                     }
-                }
             }
             
             VStack(spacing: 5) {
@@ -68,23 +53,22 @@ struct ProfileView: View {
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
-                    .foregroundStyle(.primaryText)
                 
                 TextField("", text: $viewModel.profile.surname, prompt: Text("Username"))
                     .padding(20)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.horizontal)
-                    .foregroundStyle(.primaryText)
             }
             
             HStack {
                 Text("Language")
+                    .foregroundColor(.gray)
+                    .padding(.leading)
             }
             .padding()
-            .foregroundColor(.gray)
             
-            HStack {
+            HStack(spacing: 20) {
                 Button("ქართული") {
                     print("pressed")
                 }
@@ -105,19 +89,20 @@ struct ProfileView: View {
             }
             
             Spacer()
-            
-            Button("Log out") {
-                try? Auth.auth().signOut()
-                print("User logged out")
-                
+        
+            HStack {
+                Button("Log out") {
+                    try? Auth.auth().signOut()
+                    print("User logged out")
+                }
+                .padding()
+                .font(.system(size: 20))
+                .fontWeight(.bold)
+                .frame(maxWidth: 135)
+                .background(Color.red)
+                .foregroundColor(.white)
+                .cornerRadius(12)
             }
-            .padding()
-            .font(.system(size: 20))
-            .fontWeight(.bold)
-            .frame(maxWidth: 135)
-            .background(Color.red)
-            .foregroundColor(.white)
-            .cornerRadius(12)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -144,8 +129,19 @@ struct ProfileView: View {
             }
         }
         .background(Color(red: 241/255, green: 242/255, blue: 246/255))
+        .sheet(isPresented: $isImagePickerPresented) {
+            ImagePicker(image: $viewModel.profileImage)
+                .onChange(of: viewModel.profileImage) { newImage in
+                    if let newImage = newImage {
+                        viewModel.uploadProfileImage()
+                    }
+                }
+        }
     }
 }
+
+
+
 
 
 

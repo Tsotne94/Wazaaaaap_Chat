@@ -1,24 +1,16 @@
 import Firebase
 import FirebaseAuth
-import FirebaseStorage
+import FirebaseFirestore
 import SwiftUI
-import PhotosUI
 
 final class ProfileViewModel: ObservableObject {
-    @Published var profile = User(uid: "", email: "", name: "", surname: "")
-    @Published var profileImage: Image? = nil
-    @Published var selectedItem: PhotosPickerItem? = nil
+    @Published var profile = User(uid: "", email: "", name: "", surname: "", ImageUrl: "")
+    @Published var profileImage: UIImage? = nil
     @Published var isLoading: Bool = false
+    @Published var shouldShowImagePicker: Bool = false
     
     init() {
         fetchUser()
-    }
-    
-    
-    func setImage(from data: Data) {
-        if let uiImage = UIImage(data: data) {
-            profileImage = Image(uiImage: uiImage)
-        }
     }
     
     private func fetchUser() {
@@ -32,47 +24,33 @@ final class ProfileViewModel: ObservableObject {
             .document(fromId)
             .getDocument { snapshot, error in
                 if let error = error {
-                    print("Failed fetching username: \(error)")
+                    print("Failed fetching user: \(error)")
                 } else {
                     let user = try? snapshot?.data(as: User.self)
                     if let user = user {
                         self.profile = user
+                        if !user.ImageUrl.isEmpty {
+                            self.loadProfileImage(from: user.ImageUrl)
+                        }
                     }
-                    print("User fetched:)")
+                    print("User fetched successfully")
                 }
             }
     }
     
-//    var localizedTexts: [String: String] {
-//        switch profile.language {
-//        case .georgian:
-//            return [
-//                "save": "შენახვა",
-//                "profile": "შენი პროფილი",
-//                "choosePicture": "აირჩიე პროფილის სურათი",
-//                "fullName": "სახელი",
-//                "username": "იუზერის სახელი",
-//                "language": "ენა",
-//                "logout": "გამოსვლა"
-//            ]
-//        case .english:
-//            return [
-//                "save": "Save",
-//                "profile": "Your Profile",
-//                "choosePicture": "Choose Profile Picture",
-//                "fullName": "Full Name",
-//                "username": "Username",
-//                "language": "Language",
-//                "logout": "Log out"
-//            ]
-//        }
-//    }
+    private func loadProfileImage(from urlString: String) {
+        ImageManager.shared.fetchImage(from: urlString) { [weak self] image in
+            DispatchQueue.main.async {
+                self?.profileImage = image
+            }
+        }
+    }
     
     func updateProfile() {
         guard let user = Auth.auth().currentUser else { return }
-
+        
         let changeRequest = user.createProfileChangeRequest()
-        changeRequest.displayName = profile.name +  " " + profile.surname
+        changeRequest.displayName = profile.name + " " + profile.surname
         
         changeRequest.commitChanges { error in
             if let error = error {
@@ -81,18 +59,31 @@ final class ProfileViewModel: ObservableObject {
                 print("Profile updated successfully.")
             }
         }
-        
         storeUserInfo(uid: user.uid)
     }
     
-    private func fetchImageData(from url: URL) async throws -> Data {
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return data
+    func uploadProfileImage() {
+        guard let profileImage = profileImage else {
+            print("No profile image selected")
+            return
+        }
+        
+        guard let user = Auth.auth().currentUser else { return }
+        
+        ImageManager.shared.uploadImage(profileImage, for: user.uid) { [weak self] url in
+            if let url = url {
+                DispatchQueue.main.async {
+                    self?.profile.ImageUrl = url
+                }
+            } else {
+                print("Failed to upload profile image.")
+            }
+        }
     }
     
     private func storeUserInfo(uid: String) {
         let db = Firestore.firestore()
-        let user = User(uid: uid, email:profile.email, name: profile.name, surname: profile.surname)
+        let user = User(uid: uid, email: profile.email, name: profile.name, surname: profile.surname, ImageUrl: profile.ImageUrl)
         
         try? db.collection("Users").document(uid)
             .setData(from: user) { error in
@@ -104,3 +95,8 @@ final class ProfileViewModel: ObservableObject {
         }
     }
 }
+
+
+
+
+

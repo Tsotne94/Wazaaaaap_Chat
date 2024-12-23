@@ -13,4 +13,5 @@ struct User: Codable, Identifiable {
     let email: String
     var name: String
     var surname: String
+    var ImageUrl: String = ""
 }
