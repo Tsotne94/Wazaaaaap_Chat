@@ -46,6 +46,7 @@ struct BottomView: View {
                 
             }
             .padding(.horizontal)
+            .padding(.bottom, 5)
         }
     }
 }
